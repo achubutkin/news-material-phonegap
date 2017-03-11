@@ -97,17 +97,6 @@ div[class*="col-"] {
 /*
     Размеры
 */
-.list-block {
-    font-size: 14px;
-}
-.list-block .item-inner {
-    min-height: 40px;
-}
-
-.list-block .item-content {
-    min-height: 40px;
-}
-
 .list-block .item-link {
     color: rgba(255,255,255, 1);
 }
