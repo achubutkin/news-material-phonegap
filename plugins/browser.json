@@ -17,5 +17,9 @@
             "PACKAGE_NAME": "com.phonegap.intra"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-splashscreen": {
+            "PACKAGE_NAME": "com.phonegap.intra"
+        }
+    }
 }

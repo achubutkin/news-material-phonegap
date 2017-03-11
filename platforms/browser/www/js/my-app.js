@@ -277,4 +277,4 @@ function checkBackHistory() {
 }
 
 // Загрузить категории
-getCategories(true); 
+getCategories(true);
