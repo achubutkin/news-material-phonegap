@@ -27,6 +27,9 @@
 
     <preference name="DisallowOverscroll" value="true" />
 
+    <!-- http://stackoverflow.com/questions/25385308/phonegap-build-not-showing-splashscreen -->
+    <preference name="ShowSplashScreenSpinner" value="false" />
+    
     <!-- http://pointdeveloper.com/how-to-add-splash-screen-to-phonegap-apps-phonegap-build/ -->
     <!-- http://stackoverflow.com/questions/25385308/phonegap-build-not-showing-splashscreen -->
     <preference name="orientation" value="portrait" />
