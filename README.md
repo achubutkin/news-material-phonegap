@@ -1,2 +1,1 @@
-# news-material-phonegap
-
+# news-material-phonegap [material]
