@@ -85,3 +85,33 @@ div[class*="col-"] {
 .last-items .color-gray {
     font-size: 11px;
 }
+
+/*
+    Производительность    
+*/
+.list-block .item-link .item-inner {
+    background-image: none;
+    background-position: 0 0;  
+}
+
+/*
+    Размеры
+*/
+.list-block {
+    font-size: 14px;
+}
+.list-block .item-inner {
+    min-height: 40px;
+}
+
+.list-block .item-content {
+    min-height: 40px;
+}
+
+.list-block .item-link {
+    color: rgba(255,255,255, 1);
+}
+
+.panel-left .navbar {
+    background-color: #222;
+}

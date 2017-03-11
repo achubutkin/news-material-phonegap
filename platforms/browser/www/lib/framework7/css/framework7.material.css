@@ -4834,14 +4834,8 @@ html.with-statusbar-overlay .popup.tablet-fullscreen {
   width: 260px;
   top: 0;
   height: 100%;
-  /*
   -webkit-transform: translate3d(0, 0, 0);
   transform: translate3d(0, 0, 0);
-      */
-  /* Обновление */
-   -webkit-transform: translateX(0);
-  transform: translateX(0);       
-   
   -webkit-transition-duration: 300ms;
   transition-duration: 300ms;
 }
@@ -4906,13 +4900,8 @@ body.with-panel-left-reveal .panel-overlay {
   transform: translate3d(260px, 0, 0);
 }
 body.with-panel-left-cover .panel-left {
-    /*
   -webkit-transform: translate3d(260px, 0, 0);
   transform: translate3d(260px, 0, 0);
-        */
-    /* Обновление */
- -webkit-transform: translateX(260px);
-  transform: translateX(260px);   
 }
 body.with-panel-right-reveal .views {
   -webkit-transform: translate3d(-260px, 0, 0);
