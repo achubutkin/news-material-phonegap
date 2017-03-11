@@ -18,4 +18,5 @@
     <preference name="DisallowOverscroll" value="true" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#00624e" />
+    <preference name="SplashScreenDelay" value="10000" />
 </widget>
