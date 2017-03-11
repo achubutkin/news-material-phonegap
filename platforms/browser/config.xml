@@ -15,8 +15,11 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
+    <preference name="orientation" value="portrait" />
+    <preference name="fullscreen" value="true" />
     <preference name="DisallowOverscroll" value="true" />
+    <preference name="SplashScreen" value="true" />
+    <preference name="SplashScreenDelay" value="5000" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#00624e" />
-    <preference name="SplashScreenDelay" value="10000" />
 </widget>
