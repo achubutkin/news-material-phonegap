@@ -28,11 +28,8 @@
     <preference name="DisallowOverscroll" value="true" />
 
     <!-- http://pointdeveloper.com/how-to-add-splash-screen-to-phonegap-apps-phonegap-build/ -->
-    <preference name="android-minSdkVersion" value="19" />
-
+    <!-- http://stackoverflow.com/questions/25385308/phonegap-build-not-showing-splashscreen -->
     <preference name="orientation" value="portrait" />
-    <preference name="fullscreen" value="false" />
-    <preference name="SplashScreenDelay" value="10000" />
     <preference name="SplashScreen" value="splash" />
 
     <splash platform="android" qualifier="port-ldpi" src="res/screen/android/drawable-port-ldpi-screen.png" />
