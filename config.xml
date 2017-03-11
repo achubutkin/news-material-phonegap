@@ -24,10 +24,19 @@
         <allow-intent href="itms-apps:*" />
         <preference name="BackupWebStorage" value="none" />
     </platform>
+
+    <!-- http://pointdeveloper.com/how-to-add-splash-screen-to-phonegap-apps-phonegap-build/ -->
     <preference name="orientation" value="portrait" />
     <preference name="fullscreen" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="SplashScreenDelay" value="5000" />
+    <splash platform="android" qualifier="port-ldpi" src="res/screen/android/drawable-port-ldpi-screen.png" />
+    <splash platform="android" qualifier="port-mdpi" src="res/screen/android/drawable-port-mdpi-screen.png" />
+    <splash platform="android" qualifier="port-hdpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
+    <splash platform="android" qualifier="port-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
+    <splash platform="android" qualifier="port-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
+    <splash platform="android" qualifier="port-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
+
     <plugin name="cordova-plugin-whitelist" spec="~1.2.0" />
     <plugin name="cordova-plugin-console" spec="~1.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="~1.0.1" />
