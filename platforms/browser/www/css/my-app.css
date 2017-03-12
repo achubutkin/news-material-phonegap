@@ -105,6 +105,7 @@ div[class*="col-"] {
     background-color: #222;
 }
 
+/*
 .panel {
     -webkit-transform: translateX(0);
     transform: translateX(0);
@@ -121,3 +122,4 @@ div[class*="col-"] {
     -webkit-transition-duration: .3s;
     transition-duration: .3s;
 }
+*/
