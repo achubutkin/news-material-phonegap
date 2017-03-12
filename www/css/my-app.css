@@ -47,6 +47,10 @@ div[class*="col-"] {
     margin-bottom: 15px;
 }
 
+.card-content-inner {
+    overflow: hidden;
+}
+
 .last-items .card-footer, .last-items .card-header {
     padding: 2px 8px;
 }
@@ -84,6 +88,10 @@ div[class*="col-"] {
 
 .last-items .color-gray {
     font-size: 11px;
+}
+
+.items { 
+    display: block;
 }
 
 /*
@@ -126,3 +134,16 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     -webkit-transition-duration: .3s;
     transition-duration: .3s;
 }
+
+/*
+    Infinite Scroll   
+*/
+.infinite-scroll-preloader {
+  margin-top:10px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.infinite-scroll-preloader .preloader {
+  width:34px;
+  height:34px;
+}    

@@ -10,6 +10,8 @@ var myApp = new Framework7({
         if (page.name === 'index') {
             // Список последних элементов
             getLastItems(page, true);
+            // Pull to refresh
+            initPullToRefresh(page);
         }
     }
 });
@@ -46,6 +48,8 @@ myApp.onPageAfterAnimation('category', function (page) {
     if (category) {
         // Список элементов категории
         getItems(category, page);
+        // Infinite Scroll
+        initCategoryInfiniteScroll(page);
     }
 });
 
@@ -224,7 +228,7 @@ function getItems(category, page /* для корректного swipeBack */, 
     }    
 }
 
-function renderItems(items, page) {
+function renderItems(items, page, append) {
     var images = ['img/city-q-c-1000-600-9.jpg', 'img/nature-q-c-1000-600-3.jpg', 'img/people-q-c-1000-600-9.jpg'];
     var itemsHTML = '';
     for (var i = 0; i < items.length; i++) {
@@ -244,7 +248,7 @@ function renderItems(items, page) {
     }
 
     // Показать список 
-    $$(page.container).find('.items').html(itemsHTML); 
+    append && append === true ? $$(page.container).find('.items').append(itemsHTML) : $$(page.container).find('.items').html(itemsHTML); 
     // Показать картинки (lazy load)
     myApp.initImagesLazyLoad(page.container);
 }
@@ -366,6 +370,63 @@ loginscreen.find('.button-big').on('click', function () {
         }
     });
 });
+
+/*
+    Список статей по категории с Infinite Scroll
+*/
+function initCategoryInfiniteScroll(page) {
+    var categoryId = page.query.categoryId,
+        category = findCategory(categoryId);
+    // Флаг загрузки
+    var loading = false;
+    // Последний элемент
+    var lastLoadedIndex = $$('.infinite-scroll .items a').length + 1;
+    // Attach 'infinite' event handler
+    $$('.infinite-scroll').on('infinite', function () {
+        // Возврат, если загрузка в процессе
+        if (loading) return;
+        // Установить флаг загрузки
+        loading = true;
+        // Задержка 2 сек
+        setTimeout(function () {
+            // Запрос данных
+            intraapi.loadArticles(category.id, lastLoadedIndex, function (data) {
+                loading = false;
+                // Результат  
+                items = JSON.parse(data)['#value'];
+                if (items.length === 0) {
+                    // Nothing more to load, detach infinite scroll events to prevent unnecessary loadings
+                    myApp.detachInfiniteScroll($$('.infinite-scroll'));
+                }
+                else {
+                    // Показать категории
+                    renderItems(items, page, true);
+                    // Обновить последний элемент
+                    lastLoadedIndex = $$('.infinite-scroll .items a').length;
+                }
+            },
+            function (xhr) {
+
+            });
+        }, 2000);
+    });
+}
+
+/*
+    Список последних статей с Infinite Scroll
+*/
+function initPullToRefresh(page) {
+    var ptrContent = $$(page.container).find('.pull-to-refresh-content');
+    ptrContent.on('refresh', function (e) {
+        // Задержка 2 сек
+        setTimeout(function () {
+            // Обновить (по-хорошему, стоило бы добавлять, а не заново все перегружать)
+            getLastItems(page, true);
+            // Завершить
+            myApp.pullToRefreshDone();
+        }, 2000);
+    });
+}
 
 function findCategory(categoryId) {
     var categories = JSON.parse(localStorage.getItem('categories')) || [];
