@@ -95,6 +95,18 @@ div[class*="col-"] {
 }
 
 /*
+    Colors
+*/
+.navbar, .subnavbar, .toolbar {
+    background: #055f40;
+    color: #ffffff;
+}
+
+.preloader-inner .preloader-inner-half-circle {
+    border-color: #055f40;
+}
+
+/*
     Производительность    
 */
 .list-block .item-link .item-inner {
@@ -147,3 +159,42 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
   width:34px;
   height:34px;
 }    
+
+/*
+    Login Screen
+*/
+
+.login-screen-content {
+    background-color: #055f40;
+    color: #fff;
+}
+
+.login-screen-title {
+    color: #fff;
+}
+
+.login-screen-content .list-block .floating-label, .login-screen-content .list-block .label {
+    color: rgba(255,255,255,1); 
+}
+
+.login-screen-content .list-block input[type=date], .login-screen-content .list-block input[type=text] {
+    color: rgba(255,255,255, .65); 
+}
+
+.login-screen-content .list-block input[type=text]::-webkit-input-placeholder {color: rgba(255,255,255, .65); }
+.login-screen-content .list-block input[type=text]::-moz-placeholder          {color: rgba(255,255,255, .65); }/* Firefox 19+ */
+.login-screen-content .list-block input[type=text]:-moz-placeholder           {color: rgba(255,255,255, .65); }/* Firefox 18- */
+.login-screen-content .list-block input[type=text]:-ms-input-placeholder      {color: rgba(255,255,255, .65); }
+
+.login-screen-content .list-block-label.error {
+    font-weight: 600;
+}
+
+.login-screen-content .content-block.copyright {
+    margin: 0;
+}
+
+.content-block.copyright {
+    font-size: 11px;
+    text-align: center;
+}

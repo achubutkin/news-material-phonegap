@@ -12,6 +12,8 @@ var myApp = new Framework7({
             getLastItems(page, true);
             // Pull to refresh
             initPullToRefresh(page);
+            // Infinite Scroll
+            initInfiniteScroll(page);
         }
     }
 });
@@ -145,13 +147,14 @@ function getLastItems(page /* для корректного swipeBack */, refres
     }    
 }
 
-function renderLastItems(items, page) {
+function renderLastItems(items, page, append) {
+    append = append ? append : false;
     var images = ['img/city-q-c-1000-600-9.jpg', 'img/nature-q-c-1000-600-3.jpg', 'img/people-q-c-1000-600-9.jpg'], 
         firstItemHTML = '', itemsHTML = '';
 
     for (var i = 0; i < items.length; i++) {
         // 1-й элемент отдельно
-        if (i === 0) {
+        if (i === 0 && append === false /* если это не добавление при Infinite Scroll */) {
             firstItemHTML +=
             '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '   <div class="card">' +
@@ -187,9 +190,9 @@ function renderLastItems(items, page) {
     }
 
     // Показать 1-й элемент
-    $$(page.container).find('.first-item').html(firstItemHTML);
+    if (append === false) $$(page.container).find('.first-item').html(firstItemHTML);
     // Показать список 
-    $$(page.container).find('.last-items').html(itemsHTML); 
+    append && append === true ? $$(page.container).find('.last-items').append(itemsHTML) : $$(page.container).find('.last-items').html(itemsHTML); 
     // Показать картинки (lazy load)
     myApp.initImagesLazyLoad(page.container);    
 }
@@ -225,7 +228,14 @@ function getItems(category, page /* для корректного swipeBack */, 
     }
     else {
         renderItems(items, page);
-    }    
+    }
+
+    if (items.length === 0) {
+        // Удалить индикатор
+        setTimeout(function () {
+            $$(page.container).find('.infinite-scroll-preloader').remove();
+        }, 1000);
+    }
 }
 
 function renderItems(items, page, append) {
@@ -332,6 +342,13 @@ function checkBackHistory() {
 }
 
 /*
+    Домой
+*/
+$$('div[data-page="index"] .navbar-inner .center').on('click', function (e) {
+    $$('.page-content').scrollTop(0, 500);
+});
+
+/*
     Авторизация 
 */
 var loginscreen = $$('.login-screen');
@@ -350,14 +367,18 @@ loginscreen.find('.button-big').on('click', function () {
         success: function (data) {
             data = JSON.parse(data);
             if (data && data.auth === true) {
-                // Сохранить подпись
-                localStorage.setItem('sign', data.sign);
-                // Обновить список 
-                getCategories(true);
-                // Закрыть окно авторизации
-                myApp.closeModal('.login-screen');
-                // Обновить список последних элементов
-                getLastItems(mainView.activePage, true);
+                setTimeout(function () {
+                    // Сохранить подпись
+                    localStorage.setItem('sign', data.sign);
+                    // Обновить список 
+                    getCategories(true);
+                    // Скрыть индикатор
+                    myApp.hidePreloader();
+                    // Закрыть окно авторизации
+                    myApp.closeModal('.login-screen');
+                    // Обновить список последних элементов
+                    getLastItems(mainView.activePage, true);
+                }, 3000);
             }
             else {
                 $$('.error').text('Ошибка авторизации!');
@@ -396,7 +417,9 @@ function initCategoryInfiniteScroll(page) {
                 items = JSON.parse(data)['#value'];
                 if (items.length === 0) {
                     // Nothing more to load, detach infinite scroll events to prevent unnecessary loadings
-                    myApp.detachInfiniteScroll($$('.infinite-scroll'));
+                    myApp.detachInfiniteScroll($$(page.container).find('.infinite-scroll'));
+                    // Удалить индикатор
+                    $$(page.container).find('.infinite-scroll-preloader').remove();
                 }
                 else {
                     // Показать категории
@@ -413,7 +436,7 @@ function initCategoryInfiniteScroll(page) {
 }
 
 /*
-    Список последних статей с Infinite Scroll
+    Список последних статей с Pull to refresh
 */
 function initPullToRefresh(page) {
     var ptrContent = $$(page.container).find('.pull-to-refresh-content');
@@ -424,6 +447,47 @@ function initPullToRefresh(page) {
             getLastItems(page, true);
             // Завершить
             myApp.pullToRefreshDone();
+        }, 2000);
+    });
+}
+
+/*
+    Список последних статей с Infinite Scroll
+*/
+function initInfiniteScroll(page) {
+    // Флаг загрузки
+    var loading = false;
+    // Последний элемент
+    var lastLoadedIndex = $$('.infinite-scroll .last-items a').length + 1;
+    // Attach 'infinite' event handler
+    $$('.infinite-scroll').on('infinite', function () {
+        // Возврат, если загрузка в процессе
+        if (loading) return;
+        // Установить флаг загрузки
+        loading = true;
+        // Задержка 2 сек
+        setTimeout(function () {
+            // Запрос данных
+            intraapi.loadTopArticles(lastLoadedIndex, function (data) {
+                loading = false;
+                // Результат  
+                items = JSON.parse(data)['#value'];
+                if (items.length === 0) {
+                    // Nothing more to load, detach infinite scroll events to prevent unnecessary loadings
+                    myApp.detachInfiniteScroll($$(page.container).find('.infinite-scroll'));
+                    // Удалить индикатор
+                    $$(page.container).find('.infinite-scroll-preloader').remove();
+                }
+                else {
+                    // Показать категории
+                    renderLastItems(items, page, true);
+                    // Обновить последний элемент
+                    lastLoadedIndex = $$('.infinite-scroll .last-items a').length;
+                }
+            },
+            function (xhr) {
+
+            });
         }, 2000);
     });
 }
