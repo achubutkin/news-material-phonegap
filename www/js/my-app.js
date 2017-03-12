@@ -61,11 +61,30 @@ myApp.onPageAfterAnimation('item', function (page) {
 function getCategories(refresh) {
     var categories = refresh ? [] : JSON.parse(localStorage.getItem('categories')) || [];
     if (categories.length === 0) {
+        intraapi.loadCategories(function (data) {
+            // Результат  
+            categories = JSON.parse(data)['#value'];
+            // Обновить кэш
+            localStorage.setItem('categories', JSON.stringify(categories));
+            // Показать категории
+            renderCategories(categories);
+        },
+        function (xhr) {
+            if (xhr.status === 403) {
+                var result = JSON.parse(xhr.response);
+                if (result) {
+                    // Показать окно авторизации
+                    myApp.loginScreen();
+                }
+            }
+        });
+        /*
         $$.get('js/categories.json', function (data) {
             categories = JSON.parse(data);
             localStorage.setItem('categories', JSON.stringify(categories));
             renderCategories(categories);
         });
+        */
     }
     else {
         renderCategories(categories);
@@ -275,6 +294,38 @@ function checkBackHistory() {
         history.splice(1, 1); // удалить из истории переход, начиная со второго перехода, оставить основную страницу
     }    
 }
+
+$$('.login-screen').find('.list-button').on('click', function () {
+    var iin = $$('.login-screen').find('input[name="iin"]').val();
+    var datein = $$('.login-screen').find('input[name="datein"]').val();
+    $$.ajax({
+        url: intraapi.url + 'auth',
+        method: 'POST',
+        beforeSend: function () {
+            // Индикатор процесса авторизации
+            myApp.showPreloader('Проверка данных...');
+        },
+        data: 'iin=' + iin + '&' + 'datein=' + datein,
+        success: function (data) {
+            data = JSON.parse(data);
+            if (data && data.auth === true) {
+                // Сохранить подпись
+                localStorage.setItem('sign', data.sign);
+                // Обновить список 
+                getCategories(true);
+                myApp.closeModal('.login-screen');
+            }
+            else {
+                $$('.error').text('Ошибка авторизации!');
+            }
+            myApp.hidePreloader();
+        },
+        error: function (xhr) {
+            $$('.error').text('Сеть или сервер авторизации вне доступа!');
+            myApp.hidePreloader();
+        }
+    });
+});
 
 // Загрузить категории
 getCategories(true);

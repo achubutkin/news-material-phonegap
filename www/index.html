@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline'; object-src 'self' data:; img-src 'self' data:; media-src 'self' data:; frame-src 'self' data:; font-src 'self' data:; connect-src 'self' data: http://192.168.100.7:3000/ ws://192.168.100.7:3000/">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: https://web.applecity.kz:3381/; object-src 'self' data:; img-src 'self' data:; media-src 'self' data:; frame-src 'self' data:; font-src 'self' data:; connect-src 'self' data: http://192.168.100.7:3000/ ws://192.168.100.7:3000/ https://web.applecity.kz:3381/">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
         <meta name="mobile-web-app-capable" content="yes">
@@ -81,11 +81,57 @@
                 </div>
             </div>
         </div>
+
+        <!-- Авторизация -->
+        <div class="login-screen">
+            <div class="view">
+                <div class="page">
+                    <div class="page-content login-screen-content">
+                        <div class="login-screen-title">Intra</div>
+                        <form>
+                            <div class="list-block">
+                                <ul>
+                                    <li class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">ИИН</div>
+                                            <div class="item-input">
+                                                <input type="text" name="iin" placeholder="ИИН">
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="item-content">
+                                        <div class="item-inner">
+                                            <div class="item-title label">Дата приема на работу</div>
+                                            <div class="item-input">
+                                                <input type="date" name="datein" />
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="list-block">
+                                <ul>
+                                    <li><a href="#" class="item-link list-button">Авторизация</a></li>
+                                </ul>
+                                <div class="list-block-label error"></div>
+                                <div class="list-block-label">
+                                    <p>Для работников в Казахстане необходимо указать свой индивидуальный идентификационный номер (ИИН),
+                                    в Кыргызстане &mdash; номер документа удостоверяющего личность.</p>
+                                    <p>В поле Дата необходимо указать дату приема на работу в организацию (по трудовому договору).</p>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Path to Cordova -->
         <script type="text/javascript" src="cordova.js"></script>
         <!-- Path to Framework7 Library JS-->
         <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
-        <!-- Path to your app js-->
+        <!-- Path to your app js`s-->
+        <script type="text/javascript" src="js/intraapi.js"></script>
         <script type="text/javascript" src="js/my-app.js"></script>
     </body>
 </html>
