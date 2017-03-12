@@ -152,11 +152,11 @@ function renderLastItems(items, page) {
             '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '   <div class="card">' +
             '       <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
-            '       <div class="card-header">' + items[i].title + '</div>' +
+            '       <div class="card-header"><h3>' + items[i].title + '</h3></div>' +
             '       <div class="card-content">' +
             '           <div class="card-content-inner">' +
             '               <p>Card with header and footer. Card header is used to display card title and footer for some additional information or for custom actions.</p>' +
-            '               <p class="color-gray">Posted on January 21, 2015</p>' +
+            '               <p class="color-gray">Опубликовано ' + moment().format('LL', items[i].modified) + '</p>' +
             '           </div>' +
             '       </div>' +
             '   </div>' +
@@ -169,10 +169,10 @@ function renderLastItems(items, page) {
             '       <a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '           <div class="card">' +
             '               <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
-            '               <div class="card-header">' + items[i].title + '</div>' +
+            '               <div class="card-header"><h4>' + items[i].title + '</h4></div>' +
             '               <div class="card-content">' +
             '                   <div class="card-content-inner">' +
-            '                       <p class="color-gray">January 21, 2015</p>' +
+            '                       <p class="color-gray">' + moment().format('LL', items[i].modified) + '</p>' +
             '                   </div>' +
             '               </div>' +
             '           </div>' +
@@ -194,6 +194,18 @@ function getItems(category, page /* для корректного swipeBack */, 
     var storagekey = 'items_' + category.id;
     var items = refresh ? [] : JSON.parse(localStorage.getItem(storagekey)) || [];
     if (items.length === 0) {
+        intraapi.loadArticles(category.id, 0, function (data) {
+            // Результат  
+            items = JSON.parse(data)['#value'];
+            // Обновить кэш
+            localStorage.setItem(storagekey, JSON.stringify(items));
+            // Показать категории
+            renderItems(items, page);
+        },
+        function(xhr) {
+            
+        });
+        /*
         $$.get('js/items.json', function (data) {
             data = JSON.parse(data);
 
@@ -205,6 +217,7 @@ function getItems(category, page /* для корректного swipeBack */, 
             localStorage.setItem(storagekey, JSON.stringify(items));
             renderItems(items, page);
         });
+        */
     }
     else {
         renderItems(items, page);
@@ -216,14 +229,14 @@ function renderItems(items, page) {
     var itemsHTML = '';
     for (var i = 0; i < items.length; i++) {
         itemsHTML +=
-        '<a href="item.html?itemId=' + items[i].id + '" class="link no-ripple">' + 
+        '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link no-ripple">' + 
         '   <div class="card">' + 
         '       <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" valign="bottom" class="lazy lazy-fadein card-header-pic"></div>' + 
-        '       <div class="card-header">' + items[i].title + '</div>' + 
+        '       <div class="card-header"><h2>' + items[i].title + '</h2></div>' + 
         '       <div class="card-content">' + 
         '           <div class="card-content-inner">' + 
-        '               <p>Card with header and footer. Card header is used to display card title and footer for some additional information or for custom actions.</p>' + 
-        '               <p class="color-gray">Posted on January 21, 2015</p>' + 
+        '               ' + items[i].introtext + 
+        '               <p class="color-gray">Опубликовано ' + moment().format('LL', items[i].modified) + '</p>' + 
         '           </div>' + 
         '       </div>' + 
         '   </div>' + 
@@ -286,7 +299,7 @@ function renderItem(item, page) {
     // Показать элемент 
     $$(page.container).find('.page-content').html(
         '<div class="content-block">' +
-        '   <h2>' + item.title + '</h2>' +  
+        '   <h1>' + item.title + '</h1>' +  
         '   <p class="color-gray">Опубликовано ' + moment().format('LL', item.modified) + '</p>' + 
         '   <p>' + item.introtext + '</p>' + 
             item.fulltext + 
