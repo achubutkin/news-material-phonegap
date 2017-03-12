@@ -32,16 +32,16 @@ myApp.onPageInit('category', function (page) {
 
     if (category) {
         // Установить заголовок
-        $$(page.navbarInnerContainer).find('.center').text(category.title);
+        $$(myApp.device.ios ? page.navbarInnerContainer : page.container).find('.center').text(category.title);
         // Установить заголовок
-        $$(page.container).find('.content-block-title').text('Item`s by ' + category.title);
+        $$(page.container).find('.content-block-title').text('Статьи в категории ' + category.title);
     }
 });
 
 myApp.onPageAfterAnimation('category', function (page) {
     // Получить параметр из запроса
     var categoryId = page.query.categoryId,
-        category = JSON.parse(localStorage.getItem('categories'))[categoryId - 1];
+        category = findCategory(categoryId);
 
     if (category) {
         // Список элементов категории
@@ -155,7 +155,7 @@ function renderLastItems(items, page) {
             '       <div class="card-header"><h3>' + items[i].title + '</h3></div>' +
             '       <div class="card-content">' +
             '           <div class="card-content-inner">' +
-            '               <p>Card with header and footer. Card header is used to display card title and footer for some additional information or for custom actions.</p>' +
+            '               <p>' + items[i].introtext + '</p>' +
             '               <p class="color-gray">Опубликовано ' + moment().format('LL', items[i].modified) + '</p>' +
             '           </div>' +
             '       </div>' +
