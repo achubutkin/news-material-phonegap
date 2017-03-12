@@ -22,29 +22,6 @@ var mainView = myApp.addView('.view-main', {
     domCache: false
 });
 
-/*
-    Отказ от data- атрибутов (производительность)
-*/
-// ЛЕВАЯ панель
-var panel = $$('.panel'); 
-// Кнопка открытия ЛЕВОЙ панели
-$$('.d-open-panel').on('click', function (e) {
-    if (panel.hasClass('active')) return false;
-    myApp.closePanel(); // Close if some panel is opened
-    myApp.allowPanelOpen = false;
-    panel.css({ display: 'block' }).addClass('active');
-    if (myApp.params.material) {
-        $$('.panel-overlay').show();
-    }
-    // Trigger reLayout
-    var clientLeft = panel[0].clientLeft;
-    $$('body').addClass('with-panel-left-cover');
-    panel.transitionEnd(function (e) {
-        if (myApp.params.material) $$('.panel-overlay').css({display: ''});
-        myApp.allowPanelOpen = true;
-    });
-});
-
 myApp.onPageInit('category', function (page) {
 
     checkBackHistory();

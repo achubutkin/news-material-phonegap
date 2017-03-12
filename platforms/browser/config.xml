@@ -15,8 +15,8 @@
     <allow-intent href="sms:*" />
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
-    <splash platform="android" qualifier="port-ldpi" src="res/screen/android/drawable-port-ldpi-screen.png" />
-    <splash platform="android" qualifier="port-mdpi" src="res/screen/android/drawable-port-mdpi-screen.png" />
+    <splash platform="android" qualifier="port-ldpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
+    <splash platform="android" qualifier="port-mdpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
     <splash platform="android" qualifier="port-hdpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
     <splash platform="android" qualifier="port-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
     <splash platform="android" qualifier="port-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
@@ -28,11 +28,9 @@
     <splash platform="android" qualifier="land-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
     <preference name="DisallowOverscroll" value="true" />
-    <preference name="android-minSdkVersion" value="19" />
+    <preference name="ShowSplashScreenSpinner" value="false" />
     <preference name="orientation" value="portrait" />
-    <preference name="fullscreen" value="false" />
-    <preference name="SplashScreenDelay" value="10000" />
-    <preference name="SplashScreen" value="screen" />
+    <preference name="SplashScreen" value="splash" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#00624e" />
 </widget>

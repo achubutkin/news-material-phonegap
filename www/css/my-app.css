@@ -104,3 +104,20 @@ div[class*="col-"] {
 .panel-left .navbar {
     background-color: #222;
 }
+
+.panel {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    -webkit-transition-property: transform;
+    transition-property: transform;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+    will-change: transform;
+}
+
+.panel-overlay {
+    -webkit-transition-property: transform, opacity;
+    transition-property: transform, opacity;
+    -webkit-transition-duration: .3s;
+    transition-duration: .3s;
+}
