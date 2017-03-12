@@ -105,15 +105,19 @@ div[class*="col-"] {
     background-color: #222;
 }
 
-/*
+.panel-overlay {
+    background: rgba(0,0,0,.6);
+}
+
+body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
+    box-shadow: none;
+}
+
 .panel {
-    -webkit-transform: translateX(0);
-    transform: translateX(0);
     -webkit-transition-property: transform;
     transition-property: transform;
     -webkit-transition-duration: .3s;
     transition-duration: .3s;
-    will-change: transform;
 }
 
 .panel-overlay {
@@ -122,4 +126,3 @@ div[class*="col-"] {
     -webkit-transition-duration: .3s;
     transition-duration: .3s;
 }
-*/
