@@ -28,7 +28,7 @@ myApp.onPageInit('category', function (page) {
 
     // Получить параметр из запроса
     var categoryId = page.query.categoryId,
-        category = JSON.parse(localStorage.getItem('categories'))[categoryId - 1];
+        category = findCategory(categoryId);
 
     if (category) {
         // Установить заголовок
@@ -109,6 +109,20 @@ function renderCategories(categories) {
 function getLastItems(page /* для корректного swipeBack */, refresh) {
     var items = refresh ? [] : JSON.parse(localStorage.getItem('lastitems')) || [];
     if (items.length === 0) {
+        intraapi.loadTopArticles(1, function (data) {
+            // Результат  
+            items = JSON.parse(data)['#value'];
+            // Обновить кэш
+            localStorage.setItem('lastitems', JSON.stringify(items));
+            // Показать последние статьи
+            renderLastItems(items, page);
+        },
+        function (xhr) {
+            if (xhr.status === 403) {
+                // Нет авторизации
+            }
+        });
+        /*
         $$.get('js/items.json', function (data) {
             data = JSON.parse(data);
 
@@ -120,6 +134,7 @@ function getLastItems(page /* для корректного swipeBack */, refres
             localStorage.setItem('lastitems', JSON.stringify(items));
             renderLastItems(items, page);
         });
+        */
     }
     else {
         renderLastItems(items, page);
@@ -134,7 +149,7 @@ function renderLastItems(items, page) {
         // 1-й элемент отдельно
         if (i === 0) {
             firstItemHTML +=
-            '<a href="item.html?itemId=' + items[i].id + '" class="link">' +
+            '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '   <div class="card">' +
             '       <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
             '       <div class="card-header">' + items[i].title + '</div>' +
@@ -151,7 +166,7 @@ function renderLastItems(items, page) {
             itemsHTML +=
             (i % 2 === 1 ? '<div class="row">' : '') + /* по 2 элемента в строке */
             '   <div class="col-50">' + 
-            '       <a href="item.html?itemId=' + items[i].id + '" class="link">' +
+            '       <a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '           <div class="card">' +
             '               <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
             '               <div class="card-header">' + items[i].title + '</div>' +
@@ -225,6 +240,15 @@ function getItem(itemId, page) {
     var storagekey = 'item_' + itemId;
     var item = JSON.parse(localStorage.getItem(storagekey));
     if (!item) {
+        intraapi.loadArticle(itemId, function (data) {
+            item = JSON.parse(data)['#value'];
+            localStorage.setItem(storagekey, JSON.stringify(item));
+            renderItem(item, page);
+        },
+        function (xhr) {
+
+        });
+        /*
         $$.get('js/items.json', function (data) {
             data = JSON.parse(data);
 
@@ -239,6 +263,7 @@ function getItem(itemId, page) {
             localStorage.setItem(storagekey, JSON.stringify(item));
             renderItem(item, page);
         });
+        */
     }
     else {
         renderItem(item, page);
@@ -247,14 +272,7 @@ function getItem(itemId, page) {
 
 function renderItem(item, page) {
     // Найти категорию элемента
-    var category = undefined;
-    var categories = JSON.parse(localStorage.getItem('categories'));
-    for (var i = 0; i < categories.length; i++) {
-        if (categories[i].id === item.category) {
-            category = categories[i];
-            break;
-        }
-    }
+    var category = findCategory(item.catid);
     // Установить переход назад
     $$(myApp.device.ios ? page.navbarInnerContainer : page.container).find('.back-to-category')
     .on('click', function (e) {
@@ -267,10 +285,11 @@ function renderItem(item, page) {
 
     // Показать элемент 
     $$(page.container).find('.page-content').html(
-        '<div class="content-block-title">' + item.title + '</div>' +
-        '<div class="content-block">' + 
-        '   <p class="color-gray">Posted on January 21, 2015</p>' + 
-            item.content + 
+        '<div class="content-block">' +
+        '   <h2>' + item.title + '</h2>' +  
+        '   <p class="color-gray">Опубликовано ' + moment().format('LL', item.modified) + '</p>' + 
+        '   <p>' + item.introtext + '</p>' + 
+            item.fulltext + 
         '</div>'
     ); 
     // Показать картинки (lazy load)
@@ -295,9 +314,14 @@ function checkBackHistory() {
     }    
 }
 
-$$('.login-screen').find('.list-button').on('click', function () {
-    var iin = $$('.login-screen').find('input[name="iin"]').val();
-    var datein = $$('.login-screen').find('input[name="datein"]').val();
+/*
+    Авторизация 
+*/
+var loginscreen = $$('.login-screen');
+loginscreen.find('.button-big').on('click', function () {
+    var iin = loginscreen.find('input[name="iin"]').val();
+    var datein = loginscreen.find('input[name="datein"]').val();
+    // Это надо перенести в intraapi, исправить (!)
     $$.ajax({
         url: intraapi.url + 'auth',
         method: 'POST',
@@ -313,7 +337,10 @@ $$('.login-screen').find('.list-button').on('click', function () {
                 localStorage.setItem('sign', data.sign);
                 // Обновить список 
                 getCategories(true);
+                // Закрыть окно авторизации
                 myApp.closeModal('.login-screen');
+                // Обновить список последних элементов
+                getLastItems(mainView.activePage, true);
             }
             else {
                 $$('.error').text('Ошибка авторизации!');
@@ -326,6 +353,13 @@ $$('.login-screen').find('.list-button').on('click', function () {
         }
     });
 });
+
+function findCategory(categoryId) {
+    var categories = JSON.parse(localStorage.getItem('categories')) || [];
+    for (var i = 0; i < categories.length; i++) {
+        if (categories[i].id === categoryId) return categories[i];
+    }
+}
 
 // Загрузить категории
 getCategories(true);

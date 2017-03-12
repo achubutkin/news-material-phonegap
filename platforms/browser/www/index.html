@@ -7,7 +7,7 @@
         <meta name="mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-capable" content="yes">
         <meta name="apple-mobile-web-app-status-bar-style" content="black">
-        <title>My App</title>
+        <title>Intra</title>
         <!-- Path to Framework7 Library CSS-->
         <link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">
         <link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">
@@ -26,7 +26,7 @@
                     <div data-page="panel-left" class="page">
                         <div class="navbar">
                             <div class="navbar-inner">
-                                <div class="center">Categories</div>
+                                <div class="center">Выбор раздела</div>
                             </div>
                         </div>
                         <div class="page-content">
@@ -36,12 +36,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <!-- Right panel with cover effect-->
-        <div class="panel panel-right panel-cover">
-            <div class="content-block">
-                <p>Right panel content goes here</p>
             </div>
         </div>
         <!-- Views-->
@@ -61,7 +55,7 @@
                                     <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
                                 </div>
                                 <!-- We have home navbar without left link-->
-                                <div class="center">Awesome App</div>
+                                <div class="center">Intra</div>
                             </div>
                         </div>
                         <!-- Scrollable page content-->
@@ -70,11 +64,8 @@
                             <div class="content-block">
                                 <div class="last-items"></div>
                             </div>
-                            <div class="content-block">
-                                <div class="content-block-inner">
-                                    <p>Couple of worlds here because my app is so awesome!</p>
-                                    <p>Duis sed erat ac eros ultrices pharetra id ut tellus. Praesent rhoncus enim ornare ipsum aliquet ultricies. Pellentesque sodales erat quis elementum sagittis.</p>
-                                </div>
+                            <div class="content-block copyright">
+                                <p>Все права на приложение ТОО &laquo;Apple City LLC&raquo;<br />v.0.0.1 09-03-2017</p>
                             </div>
                         </div>
                     </div>
@@ -87,7 +78,7 @@
             <div class="view">
                 <div class="page">
                     <div class="page-content login-screen-content">
-                        <div class="login-screen-title">Intra</div>
+                        <div class="login-screen-title"><h2>Intra</h2></div>
                         <form>
                             <div class="list-block">
                                 <ul>
@@ -109,15 +100,15 @@
                                     </li>
                                 </ul>
                             </div>
-                            <div class="list-block">
-                                <ul>
-                                    <li><a href="#" class="item-link list-button">Авторизация</a></li>
-                                </ul>
+                            <div class="content-block">
+                                <a href="#" class="button button-big">Авторизация</a></li>
+                            </div>
+                            <div class="content-block">
                                 <div class="list-block-label error"></div>
                                 <div class="list-block-label">
                                     <p>Для работников в Казахстане необходимо указать свой индивидуальный идентификационный номер (ИИН),
                                     в Кыргызстане &mdash; номер документа удостоверяющего личность.</p>
-                                    <p>В поле Дата необходимо указать дату приема на работу в организацию (по трудовому договору).</p>
+                                    <p>В поле Дата указать дату приема на работу в организацию (по трудовому договору).</p>
                                 </div>
                             </div>
                         </form>
@@ -128,6 +119,11 @@
 
         <!-- Path to Cordova -->
         <script type="text/javascript" src="cordova.js"></script>
+        <script src="lib/momentjs/moment-with-locales.js"></script>
+        <script>
+            window.moment = (typeof moment !== 'undefined') ? moment : require('moment');
+            moment.locale('ru'); // локализация формата даты/времени
+        </script>
         <!-- Path to Framework7 Library JS-->
         <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
         <!-- Path to your app js`s-->
