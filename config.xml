@@ -49,12 +49,11 @@
     <splash platform="android" qualifier="land-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
 
-    <gap:plugin name="cordova-plugin-crosswalk-webview-pgb-adapt" source="npm" version="1.4.0-dev-5"/>
+    <plugin name="cordova-plugin-crosswalk-webview" spec="1" />
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.2" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.0" />
     <plugin name="cordova-plugin-console" spec="~1.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="~1.0.1" />
-
 
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#00624e" />
