@@ -35,16 +35,17 @@
     <preference name="orientation" value="portrait" />
     <preference name="SplashScreen" value="splash" />
 
-    <splash platform="android" qualifier="port-ldpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
-    <splash platform="android" qualifier="port-mdpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
-    <splash platform="android" qualifier="port-hdpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
+    <!-- http://phonegap.appiq.software/ -->
+    <splash platform="android" qualifier="port-ldpi" src="res/screen/android/screen-hdpi-portrait.png" />
+    <splash platform="android" qualifier="port-mdpi" src="res/screen/android/screen-hdpi-portrait.png" />
+    <splash platform="android" qualifier="port-hdpi" src="res/screen/android/screen-hdpi-portrait.png" />
     <splash platform="android" qualifier="port-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
     <splash platform="android" qualifier="port-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash platform="android" qualifier="port-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
 
-    <splash platform="android" qualifier="land-ldpi" src="res/screen/android/drawable-port-ldpi-screen.png" />
-    <splash platform="android" qualifier="land-mdpi" src="res/screen/android/drawable-port-mdpi-screen.png" />
-    <splash platform="android" qualifier="land-hdpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
+    <splash platform="android" qualifier="land-ldpi" src="res/screen/android/screen-hdpi-landscape.png" />
+    <splash platform="android" qualifier="land-mdpi" src="res/screen/android/screen-hdpi-landscape.png" />
+    <splash platform="android" qualifier="land-hdpi" src="res/screen/android/screen-hdpi-landscape.png" />
     <splash platform="android" qualifier="land-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
