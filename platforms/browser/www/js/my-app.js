@@ -39,6 +39,10 @@ $$('.d-open-panel').on('click', function (e) {
     // Trigger reLayout
     var clientLeft = panel[0].clientLeft;
     $$('body').addClass('with-panel-left-cover');
+    panel.transitionEnd(function (e) {
+        if (myApp.params.material) $$('.panel-overlay').css({display: ''});
+        myApp.allowPanelOpen = true;
+    });
 });
 
 myApp.onPageInit('category', function (page) {
