@@ -355,19 +355,20 @@ var loginscreen = $$('.login-screen');
 loginscreen.find('.button-big').on('click', function () {
     var iin = loginscreen.find('input[name="iin"]').val();
     var datein = loginscreen.find('input[name="datein"]').val();
-    // Это надо перенести в intraapi, исправить (!)
-    $$.ajax({
-        url: intraapi.url + 'auth',
-        method: 'POST',
-        beforeSend: function () {
-            // Индикатор процесса авторизации
-            myApp.showPreloader('Проверка данных...');
-        },
-        data: 'iin=' + iin + '&' + 'datein=' + datein,
-        success: function (data) {
-            data = JSON.parse(data);
-            if (data && data.auth === true) {
-                setTimeout(function () {
+    // Индикатор процесса авторизации
+    myApp.showPreloader('Проверка данных...');
+    // Небольшая задержка...
+    setTimeout(function () {
+        // Это надо перенести в intraapi, исправить (!)
+        $$.ajax({
+            url: intraapi.url + 'auth',
+            method: 'POST',
+            beforeSend: function () {
+            },
+            data: 'iin=' + iin + '&' + 'datein=' + datein,
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data && data.auth === true) {
                     // Сохранить подпись
                     localStorage.setItem('sign', data.sign);
                     // Обновить список 
@@ -378,18 +379,18 @@ loginscreen.find('.button-big').on('click', function () {
                     myApp.closeModal('.login-screen');
                     // Обновить список последних элементов
                     getLastItems(mainView.activePage, true);
-                }, 3000);
+                }
+                else {
+                    $$('.error').text('Ошибка авторизации!');
+                    myApp.hidePreloader();
+                }
+            },
+            error: function (xhr) {
+                $$('.error').text('Сеть или сервер авторизации вне доступа!');
+                myApp.hidePreloader();
             }
-            else {
-                $$('.error').text('Ошибка авторизации!');
-            }
-            myApp.hidePreloader();
-        },
-        error: function (xhr) {
-            $$('.error').text('Сеть или сервер авторизации вне доступа!');
-            myApp.hidePreloader();
-        }
-    });
+        });
+    }, 2000);
 });
 
 /*
