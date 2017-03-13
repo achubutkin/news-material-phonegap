@@ -390,7 +390,7 @@ loginscreen.find('.button-big').on('click', function () {
                 myApp.hidePreloader();
             }
         });
-    }, 2000);
+    }, 3000);
 });
 
 /*
