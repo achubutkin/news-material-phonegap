@@ -382,11 +382,13 @@ loginscreen.find('.button-big').on('click', function () {
                 }
                 else {
                     $$('.error').text('Ошибка авторизации!');
+                    // Скрыть индикатор
                     myApp.hidePreloader();
                 }
             },
             error: function (xhr) {
                 $$('.error').text('Сеть или сервер авторизации вне доступа!');
+                // Скрыть индикатор
                 myApp.hidePreloader();
             }
         });
