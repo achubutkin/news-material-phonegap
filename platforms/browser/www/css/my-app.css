@@ -199,3 +199,10 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     font-size: 11px;
     text-align: center;
 }
+
+.login-screen-preloader {
+    display: none;
+}
+.login-screen-preloader .preloader-inner-half-circle {
+    border-color: #fff;
+}

@@ -351,12 +351,16 @@ $$('div[data-page="index"] .navbar-inner .center').on('click', function (e) {
 /*
     Авторизация 
 */
-var loginscreen = $$('.login-screen');
+var loginscreen = $$('.login-screen'),
+    preloader = $$(loginscreen).find('.login-screen-preloader'); // индикатор процесса авторизации
+
 loginscreen.find('.button-big').on('click', function () {
+    // Очистить ошибки 
+    $$(loginscreen).find('.error').text('');
     var iin = loginscreen.find('input[name="iin"]').val();
     var datein = loginscreen.find('input[name="datein"]').val();
-    // Индикатор процесса авторизации
-    myApp.showPreloader('Проверка данных...');
+    // Показать индикатор
+    preloader.show();
     // Небольшая задержка...
     setTimeout(function () {
         // Это надо перенести в intraapi, исправить (!)
@@ -373,23 +377,21 @@ loginscreen.find('.button-big').on('click', function () {
                     localStorage.setItem('sign', data.sign);
                     // Обновить список 
                     getCategories(true);
-                    // Скрыть индикатор
-                    myApp.hidePreloader();
                     // Закрыть окно авторизации
                     myApp.closeModal('.login-screen');
                     // Обновить список последних элементов
                     getLastItems(mainView.activePage, true);
                 }
                 else {
-                    $$('.error').text('Ошибка авторизации!');
+                    $$(loginscreen).find('.error').text('Ошибка авторизации!');
                     // Скрыть индикатор
-                    myApp.hidePreloader();
+                    preloader.hide();
                 }
             },
             error: function (xhr) {
-                $$('.error').text('Сеть или сервер авторизации вне доступа!');
+                $$(loginscreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
                 // Скрыть индикатор
-                myApp.hidePreloader();
+                preloader.hide();
             }
         });
     }, 3000);
@@ -404,7 +406,7 @@ function initCategoryInfiniteScroll(page) {
     // Флаг загрузки
     var loading = false;
     // Последний элемент
-    var lastLoadedIndex = $$('.infinite-scroll .items a').length + 1;
+    var lastLoadedIndex = $$(page.container).find('.infinite-scroll .items a').length + 1;
     // Attach 'infinite' event handler
     $$('.infinite-scroll').on('infinite', function () {
         // Возврат, если загрузка в процессе
@@ -428,7 +430,7 @@ function initCategoryInfiniteScroll(page) {
                     // Показать категории
                     renderItems(items, page, true);
                     // Обновить последний элемент
-                    lastLoadedIndex = $$('.infinite-scroll .items a').length;
+                    lastLoadedIndex = $$(page.container).find('.infinite-scroll .items a').length;
                 }
             },
             function (xhr) {
@@ -461,7 +463,7 @@ function initInfiniteScroll(page) {
     // Флаг загрузки
     var loading = false;
     // Последний элемент
-    var lastLoadedIndex = $$('.infinite-scroll .last-items a').length + 1;
+    var lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length + 1;
     // Attach 'infinite' event handler
     $$('.infinite-scroll').on('infinite', function () {
         // Возврат, если загрузка в процессе
@@ -485,7 +487,7 @@ function initInfiniteScroll(page) {
                     // Показать категории
                     renderLastItems(items, page, true);
                     // Обновить последний элемент
-                    lastLoadedIndex = $$('.infinite-scroll .last-items a').length;
+                    lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length;
                 }
             },
             function (xhr) {
