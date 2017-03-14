@@ -1,8 +1,10 @@
 // Селектор
 var $$ = Dom7;
 
+var myApp, mainView, loginScreen;
+
 // Инициализация приложения
-var myApp = new Framework7({
+myApp = new Framework7({
     animateNavBackIcon: false,
     material: true,
     materialRipple: false,
@@ -18,13 +20,16 @@ var myApp = new Framework7({
     }
 });
 
-// Создать основное представление
-var mainView = myApp.addView('.view-main', {
+// Основное представление
+mainView = myApp.addView('.view-main', {
     // Enable dynamic Navbar
     dynamicNavbar: false,
     // Enable Dom Cache so we can use all inline pages
     domCache: false
 });
+
+// Диалог авторизации
+loginScreen = $$('.login-screen');
 
 myApp.onPageInit('category', function (page) {
 
@@ -351,14 +356,14 @@ $$('div[data-page="index"] .navbar-inner .center').on('click', function (e) {
 /*
     Авторизация 
 */
-var loginscreen = $$('.login-screen'),
-    preloader = $$(loginscreen).find('.login-screen-preloader'); // индикатор процесса авторизации
-
-loginscreen.find('.button-big').on('click', function () {
+// Индикатор процесса авторизации
+var preloader = $$(loginScreen).find('.login-screen-preloader'); 
+// Кнопка авторизации
+loginScreen.find('.button-big').on('click', function () {
     // Очистить ошибки 
-    $$(loginscreen).find('.error').text('');
-    var iin = loginscreen.find('input[name="iin"]').val();
-    var datein = loginscreen.find('input[name="datein"]').val();
+    $$(loginScreen).find('.error').text('');
+    var iin = loginScreen.find('input[name="iin"]').val();
+    var datein = loginScreen.find('input[name="datein"]').val();
     // Показать индикатор
     preloader.show();
     // Небольшая задержка...
@@ -383,13 +388,13 @@ loginscreen.find('.button-big').on('click', function () {
                     getLastItems(mainView.activePage, true);
                 }
                 else {
-                    $$(loginscreen).find('.error').text('Ошибка авторизации!');
+                    $$(loginScreen).find('.error').text('Ошибка авторизации!');
                     // Скрыть индикатор
                     preloader.hide();
                 }
             },
             error: function (xhr) {
-                $$(loginscreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
+                $$(loginScreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
                 // Скрыть индикатор
                 preloader.hide();
             }
