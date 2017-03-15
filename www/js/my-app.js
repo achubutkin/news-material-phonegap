@@ -362,6 +362,10 @@ var preloader = $$(loginScreen).find('.login-screen-preloader');
 loginScreen.find('.button-big').on('click', function () {
     // Очистить ошибки 
     $$(loginScreen).find('.error').text('');
+    // Блокировать ввод
+    loginScreen.find('input[name="iin"]').attr('disabled', true);
+    loginScreen.find('input[name="datein"]').attr('disabled', true);
+    // Получить данные
     var iin = loginScreen.find('input[name="iin"]').val();
     var datein = loginScreen.find('input[name="datein"]').val();
     // Показать индикатор
