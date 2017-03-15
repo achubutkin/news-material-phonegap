@@ -1,8 +1,10 @@
 // Селектор
 var $$ = Dom7;
 
+var myApp, mainView, loginScreen;
+
 // Инициализация приложения
-var myApp = new Framework7({
+myApp = new Framework7({
     animateNavBackIcon: false,
     material: true,
     materialRipple: false,
@@ -18,13 +20,16 @@ var myApp = new Framework7({
     }
 });
 
-// Создать основное представление
-var mainView = myApp.addView('.view-main', {
+// Основное представление
+mainView = myApp.addView('.view-main', {
     // Enable dynamic Navbar
     dynamicNavbar: false,
     // Enable Dom Cache so we can use all inline pages
     domCache: false
 });
+
+// Диалог авторизации
+loginScreen = $$('.login-screen');
 
 myApp.onPageInit('category', function (page) {
 
@@ -64,6 +69,8 @@ myApp.onPageAfterAnimation('item', function (page) {
     getItem(page.query.itemId, page);
 });
 
+var handleRetry;
+
 function getCategories(refresh) {
     var categories = refresh ? [] : JSON.parse(localStorage.getItem('categories')) || [];
     if (categories.length === 0) {
@@ -74,6 +81,8 @@ function getCategories(refresh) {
             localStorage.setItem('categories', JSON.stringify(categories));
             // Показать категории
             renderCategories(categories);
+            // Остановить проверку с интервалом
+            if (handleRetry) clearInterval(handleRetry);
         },
         function (xhr) {
             if (xhr.status === 403) {
@@ -81,25 +90,43 @@ function getCategories(refresh) {
                 if (result) {
                     // Показать окно авторизации
                     myApp.loginScreen();
+                } else {
+                    // Сеть не доступна, запустить проверку с интервалом 
+                    if (handleRetry === undefined) handleRetry = setInterval(function () {
+                        getCategories(true);
+                    }, 10000);
                 }
             }
         });
-        /*
-        $$.get('js/categories.json', function (data) {
-            categories = JSON.parse(data);
-            localStorage.setItem('categories', JSON.stringify(categories));
-            renderCategories(categories);
-        });
-        */
     }
     else {
         renderCategories(categories);
     }
+
+    // Обновить список последних элементов
+    getLastItems(mainView.activePage, true);
 }
 
+var categoryItemHTML = '' + 
+    '<li>' +
+    '   <a href="" class="item-link item-content close-panel">' +
+    '       <div class="item-inner">' +
+    '           <div class="item-title"></div>' +
+    '       </div>' +
+    '   </a>' +
+    '</li>';
+
 function renderCategories(categories) { 
+    /*
     var itemsHTML = '';
+    */
+    var ulContainer = $$('ul');
     for (var i = 0; i < categories.length; i++) {
+        var item = $$(categoryItemHTML)
+            .find('.item-link').attr('href', 'category.html?categoryId=' + categories[i].id)
+            .find('.item-title').text(categories[i].title);
+        ulContainer.append(item);
+        /*
         itemsHTML +=
         '<li>' +
         '   <a href="category.html?categoryId=' + categories[i].id + '" class="item-link item-content close-panel">' +
@@ -108,8 +135,12 @@ function renderCategories(categories) {
         '       </div>' +
         '   </a>' +
         '</li>';
+        */
     }
+    /*
     $$('.categories').html('<ul>' + itemsHTML + '</ul>');
+    */
+    $$('.categories').append(ulContainer);
 }
 
 function getLastItems(page /* для корректного swipeBack */, refresh) {
@@ -128,19 +159,6 @@ function getLastItems(page /* для корректного swipeBack */, refres
                 // Нет авторизации
             }
         });
-        /*
-        $$.get('js/items.json', function (data) {
-            data = JSON.parse(data);
-
-            // В рабочей версии убрать (!)
-            for (var i = 0; i <= 8; i++) {
-                items.push(data[i]);
-            }
-
-            localStorage.setItem('lastitems', JSON.stringify(items));
-            renderLastItems(items, page);
-        });
-        */
     }
     else {
         renderLastItems(items, page);
@@ -212,19 +230,6 @@ function getItems(category, page /* для корректного swipeBack */, 
         function(xhr) {
             
         });
-        /*
-        $$.get('js/items.json', function (data) {
-            data = JSON.parse(data);
-
-            // В рабочей версии убрать (!)
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].category === category.id) items.push(data[i]);
-            }
-
-            localStorage.setItem(storagekey, JSON.stringify(items));
-            renderItems(items, page);
-        });
-        */
     }
     else {
         renderItems(items, page);
@@ -275,22 +280,6 @@ function getItem(itemId, page) {
         function (xhr) {
 
         });
-        /*
-        $$.get('js/items.json', function (data) {
-            data = JSON.parse(data);
-
-            // В рабочей версии убрать (!)
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].id === itemId) {
-                    item = data[i];
-                    break;
-                };
-            }
-
-            localStorage.setItem(storagekey, JSON.stringify(item));
-            renderItem(item, page);
-        });
-        */
     }
     else {
         renderItem(item, page);
@@ -351,48 +340,52 @@ $$('div[data-page="index"] .navbar-inner .center').on('click', function (e) {
 /*
     Авторизация 
 */
-var loginscreen = $$('.login-screen'),
-    preloader = $$(loginscreen).find('.login-screen-preloader'); // индикатор процесса авторизации
-
-loginscreen.find('.button-big').on('click', function () {
+// Индикатор процесса авторизации
+var preloader = $$(loginScreen).find('.login-screen-preloader'),
+    authInProgress = false; 
+// Кнопка авторизации
+loginScreen.find('.button-big').on('click', function () {
+    if (authInProgress) return;
+    authInProgress = true;
     // Очистить ошибки 
-    $$(loginscreen).find('.error').text('');
-    var iin = loginscreen.find('input[name="iin"]').val();
-    var datein = loginscreen.find('input[name="datein"]').val();
+    $$(loginScreen).find('.error').text('');
+    // Блокировать ввод
+    loginScreen.find('input[name="iin"]').attr('disabled', true);
+    loginScreen.find('input[name="datein"]').attr('disabled', true);
+    // Получить данные
+    var authData = $$.serializeObject(myApp.formToJSON(loginScreen.find('form')[0]));
+    console.log(authData);
     // Показать индикатор
     preloader.show();
     // Небольшая задержка...
     setTimeout(function () {
-        // Это надо перенести в intraapi, исправить (!)
-        $$.ajax({
-            url: intraapi.url + 'auth',
-            method: 'POST',
-            beforeSend: function () {
-            },
-            data: 'iin=' + iin + '&' + 'datein=' + datein,
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data && data.auth === true) {
-                    // Сохранить подпись
-                    localStorage.setItem('sign', data.sign);
-                    // Обновить список 
-                    getCategories(true);
-                    // Закрыть окно авторизации
-                    myApp.closeModal('.login-screen');
-                    // Обновить список последних элементов
-                    getLastItems(mainView.activePage, true);
-                }
-                else {
-                    $$(loginscreen).find('.error').text('Ошибка авторизации!');
-                    // Скрыть индикатор
-                    preloader.hide();
-                }
-            },
-            error: function (xhr) {
-                $$(loginscreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
+        intraapi.checkAuth(authData, function (data) {
+            authInProgress = false;
+            data = JSON.parse(data);
+            if (data && data.auth && data.auth === true) {
+                // Сохранить подпись 
+                localStorage.setItem('sign', data.sign);
+                // Обновить список 
+                getCategories(true);
+                // Закрыть окно авторизации 
+                myApp.closeModal('.login-screen');
+            } else {
+                $$(loginScreen).find('.error').text('Ошибка авторизации!');
                 // Скрыть индикатор
                 preloader.hide();
+                // Разблокировать ввод
+                loginScreen.find('input[name="iin"]').attr('disabled', false);
+                loginScreen.find('input[name="datein"]').attr('disabled', false);
             }
+        },
+        function (xhr) {
+            authInProgress = false;
+            $$(loginScreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
+            // Скрыть индикатор
+            preloader.hide();
+            // Разблокировать ввод
+            loginScreen.find('input[name="iin"]').attr('disabled', false);
+            loginScreen.find('input[name="datein"]').attr('disabled', false);
         });
     }, 3000);
 });
@@ -506,3 +499,4 @@ function findCategory(categoryId) {
 
 // Загрузить категории
 getCategories(true);
+

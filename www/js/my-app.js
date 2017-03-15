@@ -107,9 +107,26 @@ function getCategories(refresh) {
     getLastItems(mainView.activePage, true);
 }
 
+var categoryItemHTML = '' + 
+    '<li>' +
+    '   <a href="" class="item-link item-content close-panel">' +
+    '       <div class="item-inner">' +
+    '           <div class="item-title"></div>' +
+    '       </div>' +
+    '   </a>' +
+    '</li>';
+
 function renderCategories(categories) { 
+    /*
     var itemsHTML = '';
+    */
+    var ulContainer = $$('ul');
     for (var i = 0; i < categories.length; i++) {
+        var item = $$(categoryItemHTML)
+            .find('.item-link').attr('href', 'category.html?categoryId=' + categories[i].id)
+            .find('.item-title').text(categories[i].title);
+        ulContainer.append(item);
+        /*
         itemsHTML +=
         '<li>' +
         '   <a href="category.html?categoryId=' + categories[i].id + '" class="item-link item-content close-panel">' +
@@ -118,8 +135,12 @@ function renderCategories(categories) {
         '       </div>' +
         '   </a>' +
         '</li>';
+        */
     }
+    /*
     $$('.categories').html('<ul>' + itemsHTML + '</ul>');
+    */
+    $$('.categories').append(ulContainer);
 }
 
 function getLastItems(page /* для корректного swipeBack */, refresh) {
@@ -320,21 +341,26 @@ $$('div[data-page="index"] .navbar-inner .center').on('click', function (e) {
     Авторизация 
 */
 // Индикатор процесса авторизации
-var preloader = $$(loginScreen).find('.login-screen-preloader'); 
+var preloader = $$(loginScreen).find('.login-screen-preloader'),
+    authInProgress = false; 
 // Кнопка авторизации
 loginScreen.find('.button-big').on('click', function () {
+    if (authInProgress) return;
+    authInProgress = true;
     // Очистить ошибки 
     $$(loginScreen).find('.error').text('');
     // Блокировать ввод
     loginScreen.find('input[name="iin"]').attr('disabled', true);
     loginScreen.find('input[name="datein"]').attr('disabled', true);
     // Получить данные
-    var authData = new FormData(loginScreen.find('form')[0]);
+    var authData = $$.serializeObject(myApp.formToJSON(loginScreen.find('form')[0]));
+    console.log(authData);
     // Показать индикатор
     preloader.show();
     // Небольшая задержка...
     setTimeout(function () {
         intraapi.checkAuth(authData, function (data) {
+            authInProgress = false;
             data = JSON.parse(data);
             if (data && data.auth && data.auth === true) {
                 // Сохранить подпись 
@@ -347,12 +373,19 @@ loginScreen.find('.button-big').on('click', function () {
                 $$(loginScreen).find('.error').text('Ошибка авторизации!');
                 // Скрыть индикатор
                 preloader.hide();
+                // Разблокировать ввод
+                loginScreen.find('input[name="iin"]').attr('disabled', false);
+                loginScreen.find('input[name="datein"]').attr('disabled', false);
             }
         },
         function (xhr) {
+            authInProgress = false;
             $$(loginScreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
             // Скрыть индикатор
             preloader.hide();
+            // Разблокировать ввод
+            loginScreen.find('input[name="iin"]').attr('disabled', false);
+            loginScreen.find('input[name="datein"]').attr('disabled', false);
         });
     }, 3000);
 });
