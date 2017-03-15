@@ -366,42 +366,32 @@ loginScreen.find('.button-big').on('click', function () {
     loginScreen.find('input[name="iin"]').attr('disabled', true);
     loginScreen.find('input[name="datein"]').attr('disabled', true);
     // Получить данные
-    var iin = loginScreen.find('input[name="iin"]').val();
-    var datein = loginScreen.find('input[name="datein"]').val();
+    var authData = new FormData(loginScreen.find('form')[0]);
     // Показать индикатор
     preloader.show();
     // Небольшая задержка...
     setTimeout(function () {
-        // Это надо перенести в intraapi, исправить (!)
-        $$.ajax({
-            url: intraapi.url + 'auth',
-            method: 'POST',
-            beforeSend: function () {
-            },
-            data: 'iin=' + iin + '&' + 'datein=' + datein,
-            success: function (data) {
-                data = JSON.parse(data);
-                if (data && data.auth === true) {
-                    // Сохранить подпись
-                    localStorage.setItem('sign', data.sign);
-                    // Обновить список 
-                    getCategories(true);
-                    // Закрыть окно авторизации
-                    myApp.closeModal('.login-screen');
-                    // Обновить список последних элементов
-                    getLastItems(mainView.activePage, true);
-                }
-                else {
-                    $$(loginScreen).find('.error').text('Ошибка авторизации!');
-                    // Скрыть индикатор
-                    preloader.hide();
-                }
-            },
-            error: function (xhr) {
-                $$(loginScreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
+        intraapi.checkAuth(authData, function (data) {
+            data = JSON.parse(data);
+            if (data && data.auth && data.auth === true) {
+                // Сохранить подпись 
+                localStorage.setItem('sign', data.sign);
+                // Обновить список 
+                getCategories(true);
+                // Закрыть окно авторизации 
+                myApp.closeModal('.login-screen');
+                // Обновить список последних элементов
+                getLastItems(mainView.activePage, true);
+            } else {
+                $$(loginScreen).find('.error').text('Ошибка авторизации!');
                 // Скрыть индикатор
                 preloader.hide();
             }
+        },
+        function (xhr) {
+            $$(loginScreen).find('.error').text('Сеть или сервер авторизации вне доступа!');
+            // Скрыть индикатор
+            preloader.hide();
         });
     }, 3000);
 });
