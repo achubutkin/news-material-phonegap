@@ -466,3 +466,4 @@ function findCategory(categoryId) {
 
 // Загрузить категории
 getCategories(true);
+
