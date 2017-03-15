@@ -69,6 +69,8 @@ myApp.onPageAfterAnimation('item', function (page) {
     getItem(page.query.itemId, page);
 });
 
+var handleRetry;
+
 function getCategories(refresh) {
     var categories = refresh ? [] : JSON.parse(localStorage.getItem('categories')) || [];
     if (categories.length === 0) {
@@ -79,6 +81,8 @@ function getCategories(refresh) {
             localStorage.setItem('categories', JSON.stringify(categories));
             // Показать категории
             renderCategories(categories);
+            // Остановить проверку с интервалом
+            if (handleRetry) clearInterval(handleRetry);
         },
         function (xhr) {
             if (xhr.status === 403) {
@@ -86,20 +90,21 @@ function getCategories(refresh) {
                 if (result) {
                     // Показать окно авторизации
                     myApp.loginScreen();
+                } else {
+                    // Сеть не доступна, запустить проверку с интервалом 
+                    if (handleRetry === undefined) handleRetry = setInterval(function () {
+                        getCategories(true);
+                    }, 10000);
                 }
             }
         });
-        /*
-        $$.get('js/categories.json', function (data) {
-            categories = JSON.parse(data);
-            localStorage.setItem('categories', JSON.stringify(categories));
-            renderCategories(categories);
-        });
-        */
     }
     else {
         renderCategories(categories);
     }
+
+    // Обновить список последних элементов
+    getLastItems(mainView.activePage, true);
 }
 
 function renderCategories(categories) { 
@@ -133,19 +138,6 @@ function getLastItems(page /* для корректного swipeBack */, refres
                 // Нет авторизации
             }
         });
-        /*
-        $$.get('js/items.json', function (data) {
-            data = JSON.parse(data);
-
-            // В рабочей версии убрать (!)
-            for (var i = 0; i <= 8; i++) {
-                items.push(data[i]);
-            }
-
-            localStorage.setItem('lastitems', JSON.stringify(items));
-            renderLastItems(items, page);
-        });
-        */
     }
     else {
         renderLastItems(items, page);
@@ -217,19 +209,6 @@ function getItems(category, page /* для корректного swipeBack */, 
         function(xhr) {
             
         });
-        /*
-        $$.get('js/items.json', function (data) {
-            data = JSON.parse(data);
-
-            // В рабочей версии убрать (!)
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].category === category.id) items.push(data[i]);
-            }
-
-            localStorage.setItem(storagekey, JSON.stringify(items));
-            renderItems(items, page);
-        });
-        */
     }
     else {
         renderItems(items, page);
@@ -280,22 +259,6 @@ function getItem(itemId, page) {
         function (xhr) {
 
         });
-        /*
-        $$.get('js/items.json', function (data) {
-            data = JSON.parse(data);
-
-            // В рабочей версии убрать (!)
-            for (var i = 0; i < data.length; i++) {
-                if (data[i].id === itemId) {
-                    item = data[i];
-                    break;
-                };
-            }
-
-            localStorage.setItem(storagekey, JSON.stringify(item));
-            renderItem(item, page);
-        });
-        */
     }
     else {
         renderItem(item, page);
@@ -380,8 +343,6 @@ loginScreen.find('.button-big').on('click', function () {
                 getCategories(true);
                 // Закрыть окно авторизации 
                 myApp.closeModal('.login-screen');
-                // Обновить список последних элементов
-                getLastItems(mainView.activePage, true);
             } else {
                 $$(loginScreen).find('.error').text('Ошибка авторизации!');
                 // Скрыть индикатор
