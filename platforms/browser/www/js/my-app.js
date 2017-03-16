@@ -199,6 +199,8 @@ function renderLastItems(items, page, append) {
     if (append === false) $$(page.container).find('.first-item').html(firstItemHTML);
     // Показать список 
     append && append === true ? $$(page.container).find('.last-items').append(itemsHTML) : $$(page.container).find('.last-items').html(itemsHTML); 
+    // Скорректировать пути картинок
+    fixImagesPaths(page.container);
     // Показать картинки (lazy load)
     myApp.initImagesLazyLoad(page.container);    
 }
@@ -252,6 +254,8 @@ function renderItems(items, page, append) {
 
     // Показать список 
     append && append === true ? $$(page.container).find('.items').append(itemsHTML) : $$(page.container).find('.items').html(itemsHTML); 
+    // Скорректировать пути картинок
+    fixImagesPaths(page.container);
     // Показать картинки (lazy load)
     myApp.initImagesLazyLoad(page.container);
 }
@@ -296,6 +300,8 @@ function renderItem(item, page) {
             item.fulltext + 
         '</div>'
     ); 
+    // Скорректировать пути картинок
+    fixImagesPaths(page.container);
     // Показать картинки (lazy load)
     myApp.initImagesLazyLoad(page.container); 
 }
@@ -485,6 +491,13 @@ function findCategory(categoryId) {
     for (var i = 0; i < categories.length; i++) {
         if (categories[i].id === categoryId) return categories[i];
     }
+}
+
+function fixImagesPaths(container) {
+    var container = $$(container);
+    container.find('img').each(function (index, el) {
+        $$(el).attr('src', 'https://web.applecity.kz:3381/mobileintra/img/' + $$(el).attr('src'));
+    });
 }
 
 // Загрузить категории
