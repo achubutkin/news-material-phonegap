@@ -270,7 +270,7 @@ function getItem(itemId, page) {
             renderItem(item, page);
         },
         function (xhr) {
-
+            $$(page.container).find('.page-content').html('<div style="text-align: center; width: 100%; text-transform: uppercase;"><span>Disconnected</span></div>');
         });
     }
     else {
