@@ -32,7 +32,9 @@
     
     <!-- http://pointdeveloper.com/how-to-add-splash-screen-to-phonegap-apps-phonegap-build/ -->
     <!-- http://stackoverflow.com/questions/25385308/phonegap-build-not-showing-splashscreen -->
+    <!--
     <preference name="orientation" value="portrait" />
+    -->
     <preference name="SplashScreen" value="splash" />
 
     <!-- http://phonegap.appiq.software/ -->
