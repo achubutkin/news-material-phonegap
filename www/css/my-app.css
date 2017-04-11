@@ -228,3 +228,8 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
 .content-block {
     color: #333;
 }
+
+.content-block img {
+    width: 100% !important;
+    height: auto !important;
+}
