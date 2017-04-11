@@ -18,6 +18,10 @@
         },
         "cordova-plugin-network-information": {
             "PACKAGE_NAME": "com.phonegap.intra"
+        },
+        "phonegap-plugin-push": {
+            "SENDER_ID": "XXXXXXX",
+            "PACKAGE_NAME": "com.phonegap.intra"
         }
     },
     "dependent_plugins": {
