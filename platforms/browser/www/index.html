@@ -42,22 +42,22 @@
         <div class="views">
             <!-- Your main view, should have "view-main" class-->
             <div class="view view-main">
+                <!-- Top Navbar-->
+                <div class="navbar">
+                    <!-- Navbar inner for Index page-->
+                    <div data-page="index" class="navbar-inner">
+                        <!-- We have home navbar without left link-->
+                        <div class="center sliding">Intra</div>
+                        <div class="right">
+                            <!-- Right link contains only icon - additional "icon-only" class-->
+                            <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
+                        </div>
+                    </div>
+                </div>
                 <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
-                <div class="pages navbar-fixed">
+                <div class="pages navbar-through toolbar-through">
                     <!-- Index Page-->
                     <div data-page="index" class="page">
-                        <!-- Top Navbar-->
-                        <div class="navbar">
-                            <!-- Navbar inner for Index page-->
-                            <div class="navbar-inner">
-                                <div class="left">
-                                    <!-- Right link contains only icon - additional "icon-only" class-->
-                                    <a href="#" class="link icon-only open-panel"> <i class="icon icon-bars"></i></a>
-                                </div>
-                                <!-- We have home navbar without left link-->
-                                <div class="center">Intra</div>
-                            </div>
-                        </div>
                         <!-- Scrollable page content-->
                         <div class="page-content pull-to-refresh-content infinite-scroll">
                             <!-- Default pull to refresh layer-->

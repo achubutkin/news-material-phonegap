@@ -5,8 +5,8 @@ var myApp, mainView, loginScreen;
 
 // Инициализация приложения
 myApp = new Framework7({
-    animateNavBackIcon: false,
-    material: true,
+    animateNavBackIcon: true,
+    material: false,
     materialRipple: false,
     onPageInit: function (app, page) {
         if (page.name === 'index') {
@@ -23,7 +23,7 @@ myApp = new Framework7({
 // Основное представление
 mainView = myApp.addView('.view-main', {
     // Enable dynamic Navbar
-    dynamicNavbar: false,
+    dynamicNavbar: true,
     // Enable Dom Cache so we can use all inline pages
     domCache: false
 });
