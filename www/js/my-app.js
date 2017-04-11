@@ -14,8 +14,6 @@ myApp = new Framework7({
             getLastItems(page, true);
             // Pull to refresh
             initPullToRefresh(page);
-            // Infinite Scroll
-            initInfiniteScroll(page);
         }
     }
 });
@@ -141,6 +139,8 @@ function getLastItems(page /* для корректного swipeBack */, refres
             localStorage.setItem('lastitems', JSON.stringify(items));
             // Показать последние статьи
             renderLastItems(items, page);
+            // Infinite Scroll
+            initInfiniteScroll(page);
         },
         function (xhr) {
             if (xhr.status === 403) {
@@ -453,6 +453,8 @@ function initInfiniteScroll(page) {
     var loading = false;
     // Последний элемент
     var lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length + 1;
+    console.log(lastLoadedIndex); 
+
     // Attach 'infinite' event handler
     $$('.infinite-scroll').on('infinite', function () {
         // Возврат, если загрузка в процессе
@@ -477,6 +479,7 @@ function initInfiniteScroll(page) {
                     renderLastItems(items, page, true);
                     // Обновить последний элемент
                     lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length;
+                    console.log(lastLoadedIndex);
                 }
             },
             function (xhr) {
