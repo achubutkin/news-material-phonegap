@@ -363,6 +363,9 @@ loginScreen.find('.button-big').on('click', function () {
                 localStorage.setItem('sign', data.sign);
                 // Обновить список 
                 getCategories(true);
+                // Разблокировать ввод
+                loginScreen.find('input[name="iin"]').removeAttr('disabled');
+                loginScreen.find('input[name="datein"]').removeAttr('disabled');
                 // Закрыть окно авторизации 
                 myApp.closeModal('.login-screen');
             } else {
@@ -370,8 +373,8 @@ loginScreen.find('.button-big').on('click', function () {
                 // Скрыть индикатор
                 preloader.remove();
                 // Разблокировать ввод
-                loginScreen.find('input[name="iin"]').attr('disabled', false);
-                loginScreen.find('input[name="datein"]').attr('disabled', false);
+                loginScreen.find('input[name="iin"]').removeAttr('disabled');
+                loginScreen.find('input[name="datein"]').removeAttr('disabled');
             }
         },
         function (xhr) {
