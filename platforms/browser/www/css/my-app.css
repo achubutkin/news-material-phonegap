@@ -103,8 +103,7 @@ div[class*="col-"] {
 }
 
 .preloader-inner .preloader-inner-half-circle {
-    /* border-color: #055f40; */
-    border-color: #ffffff;
+    border-color: #055f40;
 }
 
 /*
@@ -199,4 +198,8 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
 .content-block.copyright {
     font-size: 11px;
     text-align: center;
+}
+
+.login-screen-preloader .preloader {
+    border-color: #ffffff;
 }

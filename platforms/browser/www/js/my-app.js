@@ -336,7 +336,7 @@ $$('div[data-page="index"] .navbar-inner .center').on('click', function (e) {
 */
 // Индикатор процесса авторизации
 var preloader = $$('<div class="login-screen-preloader">' + 
-'    <div class="preloader"></div>' + 
+'    <span class="preloader"></span>' + 
 '</div>'),
     authInProgress = false; 
 // Кнопка авторизации
@@ -368,7 +368,7 @@ loginScreen.find('.button-big').on('click', function () {
             } else {
                 $$(loginScreen).find('.error').text('Ошибка авторизации!');
                 // Скрыть индикатор
-                preloader.remove();
+                // preloader.remove();
                 // Разблокировать ввод
                 loginScreen.find('input[name="iin"]').removeAttr('disabled');
                 loginScreen.find('input[name="datein"]').removeAttr('disabled');
