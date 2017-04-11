@@ -14,8 +14,6 @@ myApp = new Framework7({
             getLastItems(page, true);
             // Pull to refresh
             initPullToRefresh(page);
-            // Infinite Scroll
-            initInfiniteScroll(page);
         }
     }
 });
@@ -141,6 +139,8 @@ function getLastItems(page /* для корректного swipeBack */, refres
             localStorage.setItem('lastitems', JSON.stringify(items));
             // Показать последние статьи
             renderLastItems(items, page);
+            // Infinite Scroll
+            initInfiniteScroll(page);
         },
         function (xhr) {
             if (xhr.status === 403) {
@@ -370,8 +370,8 @@ loginScreen.find('.button-big').on('click', function () {
                 // Скрыть индикатор
                 preloader.remove();
                 // Разблокировать ввод
-                loginScreen.find('input[name="iin"]').attr('disabled', false);
-                loginScreen.find('input[name="datein"]').attr('disabled', false);
+                loginScreen.find('input[name="iin"]').removeAttr('disabled');
+                loginScreen.find('input[name="datein"]').removeAttr('disabled');
             }
         },
         function (xhr) {
@@ -380,8 +380,8 @@ loginScreen.find('.button-big').on('click', function () {
             // Скрыть индикатор
             preloader.remove();
             // Разблокировать ввод
-            loginScreen.find('input[name="iin"]').attr('disabled', false);
-            loginScreen.find('input[name="datein"]').attr('disabled', false);
+            loginScreen.find('input[name="iin"]').removeAttr('disabled');
+            loginScreen.find('input[name="datein"]').removeAttr('disabled');
         });
     }, 3000);
 });
