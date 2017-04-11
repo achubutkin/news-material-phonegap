@@ -233,3 +233,7 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     width: 100% !important;
     height: auto !important;
 }
+
+.first-item .card-header-pic {
+    height: 70vw;
+}
