@@ -157,7 +157,33 @@ function renderLastItems(items, page, append) {
     append = append ? append : false;
     var firstItemHTML = '', itemsHTML = '';
 
-    for (var i = 0; i < items.length; i++) {
+    if (items.length === 0) return;
+
+    // Первый элемент отдельно
+    if (append === false /* если это не добавление при Infinite Scroll */) {
+        var firstItem = items[0];
+        var introtext = $$(firstItem.introtext);
+        // Сохранить первую картинку из описания (если есть)
+        var firstImg = introtext.children('img').length > 0 ? introtext.children('img')[0] : undefined;
+        // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
+        introtext.children('img').remove();
+
+        firstItemHTML +=
+            '<a href="item.html?itemId=' + firstItem.id + '&categoryId=' + firstItem.catid + '" class="link">' +
+            '   <div class="card">' +
+            '       <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+            '       <div class="card-header"><h3>' + firstItem.title + '</h3></div>' +
+            '       <div class="card-content">' +
+            '           <div class="card-content-inner">' +
+            '               <p>' + introtext.text() + '</p>' + 
+            '               <p class="color-gray">Опубликовано ' + moment().format('LL', firstItem.modified) + '</p>' +
+            '           </div>' +
+            '       </div>' +
+            '   </div>' +
+            '</a>';
+    }
+
+    for (var i = 1; i < items.length; i++) {
 
         var introtext = $$(items[i].introtext);
         // Сохранить первую картинку из описания (если есть)
@@ -165,40 +191,22 @@ function renderLastItems(items, page, append) {
         // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
         introtext.children('img').remove();
 
-        // 1-й элемент отдельно
-        if (i === 0 && append === false /* если это не добавление при Infinite Scroll */) {
-            firstItemHTML +=
-            '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
-            '   <div class="card">' +
-            '       <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
-            '       <div class="card-header"><h3>' + items[i].title + '</h3></div>' +
-            '       <div class="card-content">' +
-            '           <div class="card-content-inner">' +
-            '               <p>' + introtext.text() + '</p>' + 
-            '               <p class="color-gray">Опубликовано ' + moment().format('LL', items[i].modified) + '</p>' +
-            '           </div>' +
-            '       </div>' +
-            '   </div>' +
-            '</a>';
-        }
-        else {
-            itemsHTML +=
-            (i % 2 === 1 ? '<div class="row">' : '') + /* по 2 элемента в строке */
-            '   <div class="col-50">' + 
-            '       <a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
-            '           <div class="card">' +
-            '               <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
-            '               <div class="card-header"><h4>' + items[i].title + '</h4></div>' +
-            '               <div class="card-content">' +
-            '                   <div class="card-content-inner">' +
-            '                       <p class="color-gray">' + moment().format('LL', items[i].modified) + '</p>' +
-            '                   </div>' +
-            '               </div>' +
-            '           </div>' +
-            '       </a>' + 
-            '   </div>' + 
-            (i % 2 === 0 || i === items.length - 1 ? '</div>' : '');
-        }
+        itemsHTML +=
+        '<div class="row">' + 
+        '   <div class="col-100">' + 
+        '       <a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
+        '           <div class="card">' +
+        '               <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+        '               <div class="card-header"><h4>' + items[i].title + '</h4></div>' +
+        '               <div class="card-content">' +
+        '                   <div class="card-content-inner">' +
+        '                       <p class="color-gray">' + moment().format('LL', items[i].modified) + '</p>' +
+        '                   </div>' +
+        '               </div>' +
+        '           </div>' +
+        '       </a>' + 
+        '   </div>' + 
+        '</div>';
     }
 
     // Показать 1-й элемент
