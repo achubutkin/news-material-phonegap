@@ -336,7 +336,7 @@ $$('div[data-page="index"] .navbar-inner .center').on('click', function (e) {
 */
 // Индикатор процесса авторизации
 var preloader = $$('<div class="login-screen-preloader">' + 
-'    <div class="preloader"></div>' + 
+'    <div class="preloader white"></div>' + 
 '</div>'),
     authInProgress = false; 
 // Кнопка авторизации

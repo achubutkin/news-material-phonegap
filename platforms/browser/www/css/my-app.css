@@ -169,6 +169,10 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     color: #fff;
 }
 
+.login-screen-content .content-block {
+    color: #fff;
+}
+
 .login-screen-title {
     color: #fff;
 }
@@ -200,9 +204,6 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     text-align: center;
 }
 
-.login-screen-preloader {
-    display: none;
-}
 .login-screen-preloader .preloader-inner-half-circle {
     border-color: #fff;
 }
