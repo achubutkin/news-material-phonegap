@@ -533,3 +533,6 @@ function fixImagesPaths(container) {
 // Загрузить категории
 getCategories(true);
 
+window.addEventListener('statusTap', function() {
+    document.body.scrollTop = 0;
+});
