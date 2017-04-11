@@ -503,3 +503,50 @@ function fixImagesPaths(container) {
 // Загрузить категории
 getCategories(true);
 
+document.addEventListener('deviceready', function () {
+
+    /*
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.bundle.js', {
+            scope: 'isstracker'
+        });
+    }
+    */
+
+    // Push-уведомления
+    var push = PushNotification.init({
+        android: {
+            senderID: "12345679"
+        },
+        browser: {
+            pushServiceURL: 'http://push.api.phonegap.com/v1/push'
+        },
+        ios: {
+            alert: "true",
+            badge: "true",
+            sound: "true"
+        },
+        windows: {}
+    });
+
+    push.on('registration', function (data) {
+        // data.registrationId
+        console.log(data.registrationId);
+    });
+
+    push.on('notification', function (data) {
+        // data.message,
+        // data.title,
+        // data.count,
+        // data.sound,
+        // data.image,
+        // data.additionalData
+        console.log(data.message);
+    });
+
+    push.on('error', function (e) {
+        // e.message
+        console.log(e.message);
+    });
+
+});
