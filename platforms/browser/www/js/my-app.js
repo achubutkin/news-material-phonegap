@@ -155,8 +155,7 @@ function getLastItems(page /* для корректного swipeBack */, refres
 
 function renderLastItems(items, page, append) {
     append = append ? append : false;
-    var images = ['img/city-q-c-1000-600-9.jpg', 'img/nature-q-c-1000-600-3.jpg', 'img/people-q-c-1000-600-9.jpg'], 
-        firstItemHTML = '', itemsHTML = '';
+    var firstItemHTML = '', itemsHTML = '';
 
     for (var i = 0; i < items.length; i++) {
         // 1-й элемент отдельно
@@ -164,7 +163,7 @@ function renderLastItems(items, page, append) {
             firstItemHTML +=
             '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '   <div class="card">' +
-            '       <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+            '       <div data-background="' + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
             '       <div class="card-header"><h3>' + items[i].title + '</h3></div>' +
             '       <div class="card-content">' +
             '           <div class="card-content-inner">' +
@@ -181,7 +180,7 @@ function renderLastItems(items, page, append) {
             '   <div class="col-50">' + 
             '       <a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '           <div class="card">' +
-            '               <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+            '               <div data-background="' + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
             '               <div class="card-header"><h4>' + items[i].title + '</h4></div>' +
             '               <div class="card-content">' +
             '                   <div class="card-content-inner">' +
@@ -234,13 +233,12 @@ function getItems(category, page /* для корректного swipeBack */, 
 }
 
 function renderItems(items, page, append) {
-    var images = ['img/city-q-c-1000-600-9.jpg', 'img/nature-q-c-1000-600-3.jpg', 'img/people-q-c-1000-600-9.jpg'];
     var itemsHTML = '';
     for (var i = 0; i < items.length; i++) {
         itemsHTML +=
         '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link no-ripple">' + 
         '   <div class="card">' + 
-        '       <div data-background="' + images[Math.floor(Math.random() * (3 - 0)) + 0] + '" valign="bottom" class="lazy lazy-fadein card-header-pic"></div>' + 
+        '       <div data-background="' + '" valign="bottom" class="lazy lazy-fadein card-header-pic"></div>' + 
         '       <div class="card-header"><h2>' + items[i].title + '</h2></div>' + 
         '       <div class="card-content">' + 
         '           <div class="card-content-inner">' + 
