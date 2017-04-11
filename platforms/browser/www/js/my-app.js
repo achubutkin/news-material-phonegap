@@ -158,16 +158,23 @@ function renderLastItems(items, page, append) {
     var firstItemHTML = '', itemsHTML = '';
 
     for (var i = 0; i < items.length; i++) {
+
+        var introtext = $$(items[i].introtext);
+        // Сохранить первую картинку из описания (если есть)
+        var firstImg = introtext.children('img').length > 0 ? introtext.children('img')[0] : undefined;
+        // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
+        introtext.children('img').remove();
+
         // 1-й элемент отдельно
         if (i === 0 && append === false /* если это не добавление при Infinite Scroll */) {
             firstItemHTML +=
             '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '   <div class="card">' +
-            '       <div data-background="' + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+            '       <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
             '       <div class="card-header"><h3>' + items[i].title + '</h3></div>' +
             '       <div class="card-content">' +
             '           <div class="card-content-inner">' +
-            '               <p>' + items[i].introtext + '</p>' +
+            '               <p>' + introtext.text() + '</p>' + 
             '               <p class="color-gray">Опубликовано ' + moment().format('LL', items[i].modified) + '</p>' +
             '           </div>' +
             '       </div>' +
@@ -180,7 +187,7 @@ function renderLastItems(items, page, append) {
             '   <div class="col-50">' + 
             '       <a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
             '           <div class="card">' +
-            '               <div data-background="' + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+            '               <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
             '               <div class="card-header"><h4>' + items[i].title + '</h4></div>' +
             '               <div class="card-content">' +
             '                   <div class="card-content-inner">' +
@@ -235,14 +242,21 @@ function getItems(category, page /* для корректного swipeBack */, 
 function renderItems(items, page, append) {
     var itemsHTML = '';
     for (var i = 0; i < items.length; i++) {
+
+        var introtext = $$(items[i].introtext);
+        // Сохранить первую картинку из описания (если есть)
+        var firstImg = introtext.children('img').length > 0 ? introtext.children('img')[0] : undefined;
+        // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
+        introtext.children('img').remove();
+
         itemsHTML +=
         '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link no-ripple">' + 
         '   <div class="card">' + 
-        '       <div data-background="' + '" valign="bottom" class="lazy lazy-fadein card-header-pic"></div>' + 
+        '       <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" valign="bottom" class="lazy lazy-fadein card-header-pic"></div>' + 
         '       <div class="card-header"><h2>' + items[i].title + '</h2></div>' + 
         '       <div class="card-content">' + 
         '           <div class="card-content-inner">' + 
-        '               ' + items[i].introtext + 
+        '               <p>' + introtext.text() + '</p>' + 
         '               <p class="color-gray">Опубликовано ' + moment().format('LL', items[i].modified) + '</p>' + 
         '           </div>' + 
         '       </div>' + 
@@ -502,6 +516,10 @@ function fixImagesPaths(container) {
     container.find('img').each(function (index, el) {
         $$(el).attr('src', 'https://web.applecity.kz:3381/mobileintra/img/' + $$(el).attr('src'));
     });
+    
+    container.find('[data-background]').each(function (index, el) {
+        $$(el).attr('data-background', 'https://web.applecity.kz:3381/mobileintra/img/' + $$(el).attr('data-background'));
+    }); 
 }
 
 // Загрузить категории

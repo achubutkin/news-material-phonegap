@@ -224,3 +224,7 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
 .navbar-inner i.icon.icon-bars {
   background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2021%2014'%3E%3Cpath%20fill%3D'%23ffffff'%20d%3D'M0%2C0h2v2H0V0z%20M4%2C0h17v1H4V0z%20M0%2C6h2v2H0V6z%20M4%2C6h17v1H4V6z%20M0%2C12h2v2H0V12z%20M4%2C12h17v1H4V12z'%2F%3E%3C%2Fsvg%3E");
 }
+
+.content-block {
+    color: #333;
+}
