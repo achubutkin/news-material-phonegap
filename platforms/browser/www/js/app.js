@@ -14,7 +14,6 @@
         material: false,
         materialRipple: false,
         onPageInit: function (app, page) {
-            console.log('onPageInit (index)');
             if (page.name === 'index') {
                 // Список последних элементов
                 getLastItems(page, true);
@@ -89,7 +88,6 @@
                     if (handleRetry === undefined) handleRetry = setInterval(function () {
                         getCategories(true);
                     }, 3000);
-                    console.log('Сеть недоступна.');
                 }
             }
         });
@@ -119,11 +117,11 @@
                 '</li>';
             }
             // Заголовок и категории 
-            sectionsHTML += '<div class="content-block-title">' + categories[i].name + '</div>' + 
-                '<div class="list-block">' + 
-                '   <ul>' + 
-                        itemsHTML + 
-                '   </ul>' + 
+            sectionsHTML += '<div class="content-block-title">' + categories[i].name + '</div>' +
+                '<div class="list-block">' +
+                '   <ul>' +
+                        itemsHTML +
+                '   </ul>' +
                 '</div>';
         }
         $$('.categories').html(sectionsHTML);
@@ -241,7 +239,7 @@
             '       <div class="card-content">' +
             '           <div class="card-content-inner">' +
             '               <p>' + introtext.text() + '</p>' +
-            '               <p class="color-gray">Опубликовано ' + moment().format('LL', firstItem.modified) + '</p>' +
+            '               <p class="color-gray">Опубликовано ' + moment(firstItem.modified).format('LL') + '</p>' +
             '           </div>' +
             '       </div>' +
             '   </div>' +
@@ -265,7 +263,7 @@
         '               <div class="card-header"><h4>' + items[i].title + '</h4></div>' +
         '               <div class="card-content">' +
         '                   <div class="card-content-inner">' +
-        '                       <p class="color-gray">' + moment().format('LL', items[i].modified) + '</p>' +
+        '                       <p class="color-gray">' + moment(items[i].modified).format('LL') + '</p>' +
         '                   </div>' +
         '               </div>' +
         '           </div>' +
@@ -330,7 +328,7 @@
         '       <div class="card-content">' +
         '           <div class="card-content-inner">' +
         '               <p>' + introtext.text() + '</p>' +
-        '               <p class="color-gray">Опубликовано ' + moment().format('LL', items[i].modified) + '</p>' +
+        '               <p class="color-gray">Опубликовано ' + moment(items[i].modified).format('LL') + '</p>' +
         '           </div>' +
         '       </div>' +
         '   </div>' +
@@ -380,7 +378,7 @@
         $$(page.container).find('.page-content').html(
         '<div class="content-block">' +
         '   <h1>' + item.title + '</h1>' +
-        '   <p class="color-gray">Опубликовано ' + moment().format('LL', item.modified) + '</p>' +
+        '   <p class="color-gray">Опубликовано ' + moment(item.modified).format('LL') + '</p>' +
         '   <p>' + item.introtext + '</p>' +
             item.fulltext +
         '</div>'
@@ -539,7 +537,10 @@
     function findCategory(categoryId) {
         var categories = JSON.parse(localStorage.getItem('categories')) || [];
         for (var i = 0; i < categories.length; i++) {
-            if (categories[i].id === categoryId) return categories[i];
+            var subcats = categories[i];
+            for (var j = 0; j < subcats.categories.length; j++) {
+                if (subcats.categories[j].id === categoryId) return subcats.categories[j];
+            }
         }
     }
 
@@ -557,7 +558,7 @@
     // ЗАПУСК 
 
     // Загрузить категории
-    getCategories(true);
+    getCategories();
 
     // Export app to global
     window.app = app;
