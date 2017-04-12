@@ -237,3 +237,7 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
 .first-item .card-header-pic {
     height: 70vw;
 }
+
+.layout-dark .categories .content-block-title {
+    color: #aaa;
+}

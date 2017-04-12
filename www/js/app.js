@@ -5,7 +5,7 @@
 
     // ИНИЦИАЛИЗАЦИЯ 
 
-    var app, mainView, loginScreen, 
+    var app, mainView, loginScreen,
         resPath = 'mobileintra/img/'; // адрес ресурсов (картинки, иконки и т.п.)
 
     // Инициализация приложения
@@ -103,18 +103,30 @@
     }
 
     function renderCategories(categories) {
-        var itemsHTML = '';
+        var sectionsHTML = '';
+        // Обход по разделам 
         for (var i = 0; i < categories.length; i++) {
-            itemsHTML +=
-        '<li>' +
-        '   <a href="category.html?categoryId=' + categories[i].id + '" class="item-link item-content close-panel">' +
-        '       <div class="item-inner">' +
-        '           <div class="item-title">' + categories[i].title + '</div>' +
-        '       </div>' +
-        '   </a>' +
-        '</li>';
+            // Обход по категориям  
+            var itemsHTML = '';
+            for (var j = 0; j < categories[i].categories.length; j++) {
+                itemsHTML +=
+                '<li>' +
+                '   <a href="category.html?categoryId=' + categories[i].categories[j].id + '" class="item-link item-content close-panel">' +
+                '       <div class="item-inner">' +
+                '           <div class="item-title">' + categories[i].categories[j].title + '</div>' +
+                '       </div>' +
+                '   </a>' +
+                '</li>';
+            }
+            // Заголовок и категории 
+            sectionsHTML += '<div class="content-block-title">' + categories[i].name + '</div>' + 
+                '<div class="list-block">' + 
+                '   <ul>' + 
+                        itemsHTML + 
+                '   </ul>' + 
+                '</div>';
         }
-        $$('.categories').html('<ul>' + itemsHTML + '</ul>');
+        $$('.categories').html(sectionsHTML);
     };
 
     // Список последних статей с Pull to refresh

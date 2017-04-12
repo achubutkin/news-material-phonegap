@@ -1,9 +1,9 @@
 (function (Framework7, $$) {
     'use strict';
 
-    var url = 'https://web.applecity.kz:3381/',    // адрес сервера
-        apiPath = 'databus_intra/hs/api/',         // адрес API
-        rcount = 2,                                // кол-во попыток загрузки данных
+    var url = 'https://web.applecity.kz:3381/',     // адрес сервера
+        apiPath = 'mobileintra/hs/api/',            // адрес API
+        rcount = 2,                                 // кол-во попыток загрузки данных
         req, reqPOST, intraapi;
 
     req = function (path, success, error, retry) {
