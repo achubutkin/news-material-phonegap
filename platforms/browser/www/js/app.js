@@ -5,7 +5,8 @@
 
     // ИНИЦИАЛИЗАЦИЯ 
 
-    var app, mainView, loginScreen;
+    var app, mainView, loginScreen, 
+        resPath = 'mobileintra/img/'; // адрес ресурсов (картинки, иконки и т.п.)
 
     // Инициализация приложения
     app = new Framework7({
@@ -149,7 +150,7 @@
                 intraapi.loadTopArticles(lastLoadedIndex, function (data) {
                     loading = false;
                     // Результат  
-                    items = JSON.parse(data)['#value'];
+                    var items = JSON.parse(data)['#value'];
                     if (items.length === 0) {
                         // Nothing more to load, detach infinite scroll events to prevent unnecessary loadings
                         app.detachInfiniteScroll($$(page.container).find('.infinite-scroll'));
@@ -398,7 +399,7 @@
                 intraapi.loadArticles(category.id, lastLoadedIndex, function (data) {
                     loading = false;
                     // Результат  
-                    items = JSON.parse(data)['#value'];
+                    var items = JSON.parse(data)['#value'];
                     if (items.length === 0) {
                         // Nothing more to load, detach infinite scroll events to prevent unnecessary loadings
                         app.detachInfiniteScroll($$(page.container).find('.infinite-scroll'));
@@ -533,11 +534,11 @@
     function fixImagesPaths(container) {
         var container = $$(container);
         container.find('img').each(function (index, el) {
-            $$(el).attr('src', 'https://web.applecity.kz:3381/mobileintra/img/' + $$(el).attr('src'));
+            $$(el).attr('src', intraapi.url + resPath + $$(el).attr('src'));
         });
 
         container.find('[data-background]').each(function (index, el) {
-            $$(el).attr('data-background', 'https://web.applecity.kz:3381/mobileintra/img/' + $$(el).attr('data-background'));
+            $$(el).attr('data-background', intraapi.url + resPath + $$(el).attr('data-background'));
         });
     };
 
