@@ -558,4 +558,9 @@
     // Export app to global
     window.app = app;
 
+    // Прокрутка вверх, при нажатии на строку статуса (cordova-plugin-statusbar) 
+    window.addEventListener('statusTap', function() {
+        document.body.scrollTop = 0;
+    });
+
 } (Framework7, Dom7, moment, intraapi));
