@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.intra" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Phonegap News [material]</name>
+    <name>ACD News</name>
     <description>
-        A basic template for PhoneGap.
+        ACD News
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+        ACD Team
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -27,9 +27,18 @@
     <splash platform="android" qualifier="land-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
+    <splash height="1136" platform="ios" src="www/res/screen/ios/screen-iphone-568h-2x.png" width="640" />
+    <splash height="1334" platform="ios" src="www/res/screen/ios/screen-iphone-portrait-667h.png" width="750" />
+    <splash height="2208" platform="ios" src="www/res/screen/ios/screen-iphone-landscape-736h.png" width="1242" />
+    <splash height="1242" platform="ios" src="www/res/screen/ios/screen-iphone-landscape-736h.png" width="2208" />
+    <splash height="1536" platform="ios" src="www/res/screen/ios/screen-ipad-landscape-2x.png" width="2048" />
+    <splash height="768" platform="ios" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
+    <splash height="2048" platform="ios" src="www/res/screen/ios/screen-ipad-portrait-2x.png" width="1536" />
+    <splash height="1024" platform="ios" src="www/res/screen/ios/screen-ipad-portrait-2x.png" width="768" />
+    <splash height="960" platform="ios" src="www/res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
+    <splash height="480" platform="ios" src="www/res/screen/ios/screen-iphone-portrait.png" width="320" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="ShowSplashScreenSpinner" value="false" />
-    <preference name="orientation" value="portrait" />
     <preference name="SplashScreen" value="splash" />
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#00624e" />
