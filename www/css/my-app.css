@@ -169,6 +169,10 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     color: #fff;
 }
 
+.login-screen-content .content-block {
+    color: #fff;
+}
+
 .login-screen-title {
     color: #fff;
 }

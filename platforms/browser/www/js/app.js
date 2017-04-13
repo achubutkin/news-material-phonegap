@@ -297,7 +297,7 @@
         }
 
         if (items.length === 0) {
-            // Удалить индикатор п
+            // Удалить индикатор 
             setTimeout(function () {
                 $$(page.container).find('.preloader-layer').remove();
             }, 1000);
