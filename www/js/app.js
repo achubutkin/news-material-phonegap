@@ -299,7 +299,7 @@
         if (items.length === 0) {
             // Удалить индикатор
             setTimeout(function () {
-                $$(page.container).find('.infinite-scroll-preloader').remove();
+                $$(page.container).find('.preloader-layer').remove();
             }, 1000);
         }
     }
