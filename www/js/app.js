@@ -462,7 +462,7 @@
                 } else {
                     displayAuthError('Ошибка авторизации!');
                     // Удалить индикатор
-                    preloader.remove();
+                    //preloader.remove();
                     // Разблокировать ввод
                     loginScreen.find('input[name="iin"]').removeAttr('disabled');
                 }

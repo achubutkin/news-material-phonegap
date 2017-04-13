@@ -199,6 +199,9 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     margin-bottom: 0;
 }
 
+.login-screen-content .preloader {
+}
+
 .content-block.copyright {
     font-size: 11px;
     text-align: center;
