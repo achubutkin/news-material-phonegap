@@ -200,7 +200,7 @@
     function getLastItems(page /* для корректного swipeBack */, refresh) {
         var items = refresh ? [] : JSON.parse(localStorage.getItem('lastitems')) || [];
         if (items.length === 0) {
-            intraapi.loadTopArticles(1, function (data) {
+            intraapi.loadTopArticles(0, function (data) {
                 // Результат  
                 items = JSON.parse(data)['#value'];
                 // Обновить кэш
