@@ -57,8 +57,6 @@
         if (category) {
             // Список элементов категории
             getItems(category, page);
-            // Infinite Scroll
-            initCategoryInfiniteScroll(page);
         }
     });
 
@@ -202,8 +200,6 @@
                 localStorage.setItem('lastitems', JSON.stringify(items));
                 // Показать последние статьи
                 renderLastItems(items, page);
-                // Infinite Scroll
-                initInfiniteScroll(page);
             },
         function (xhr) {
             if (xhr.status === 403) {
@@ -267,6 +263,8 @@
         append && append === true ? $$(page.container).find('.last-items').append(itemsHTML) : $$(page.container).find('.last-items').html(itemsHTML);
         // Показать картинки (lazy load)
         app.initImagesLazyLoad(page.container);
+        // Infinite Scroll
+        initInfiniteScroll(page);
     }
 
     function getItems(category, page /* для корректного swipeBack */, refresh) {
@@ -320,6 +318,8 @@
         append && append === true ? $$(page.container).find('.items').append(itemsHTML) : $$(page.container).find('.items').html(itemsHTML);
         // Показать картинки (lazy load)
         app.initImagesLazyLoad(page.container);
+        // Infinite Scroll
+        initCategoryInfiniteScroll(page);
     }
 
     function getItem(itemId, page) {
