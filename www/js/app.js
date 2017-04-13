@@ -146,7 +146,7 @@
         // Флаг загрузки
         var loading = false;
         // Последний элемент
-        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length + 1;
+        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length;
 
         // Attach 'infinite' event handler
         $$('.infinite-scroll').on('infinite', function () {
@@ -375,7 +375,7 @@
         // Флаг загрузки
         var loading = false;
         // Последний элемент
-        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .items a').length + 1;
+        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .items a').length;
         // Attach 'infinite' event handler
         $$('.infinite-scroll').on('infinite', function () {
             // Возврат, если загрузка в процессе
