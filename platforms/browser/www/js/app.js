@@ -373,12 +373,14 @@
         app.initImagesLazyLoad(page.container);
     }
 
+    // Флаг загрузки
+    var loading = false;
+
     // Список статей по категории с Infinite Scroll
     function initCategoryInfiniteScroll(page) {
         var categoryId = page.query.categoryId,
         category = findCategory(categoryId);
-        // Флаг загрузки
-        var loading = false;
+
         // Последний элемент
         var lastLoadedIndex = $$(page.container).find('.infinite-scroll .items a').length;
         // Attach 'infinite' event handler
@@ -387,7 +389,7 @@
             if (loading) return;
             // Установить флаг загрузки
             loading = true;
-            // Задержка 2 сек
+            // Задержка 1 сек
             setTimeout(function () {
                 // Запрос данных
                 intraapi.loadArticles(category.id, lastLoadedIndex, function (data) {
@@ -410,7 +412,7 @@
             function (xhr) {
 
             });
-            }, 2000);
+            }, 1);
         });
     };
 

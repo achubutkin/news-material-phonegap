@@ -49,13 +49,13 @@
 
         // Загрузка последних статей
         loadTopArticles: function (lastLoadedIndex, success, error) {
-            if (!lastLoadedIndex) lastLoadedIndex = 1;
+            if (!lastLoadedIndex) lastLoadedIndex = 0;
             return req('toparticles/' + lastLoadedIndex, success, error);
         },
 
         // Загрузка статей по категории
         loadArticles: function (categoryId, lastLoadedIndex, success, error) {
-            if (!lastLoadedIndex) lastLoadedIndex = 1;
+            if (!lastLoadedIndex) lastLoadedIndex = 0;
             return req('articles/' + categoryId + '/' + lastLoadedIndex, success, error);
         },
 
