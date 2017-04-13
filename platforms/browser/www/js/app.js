@@ -20,6 +20,11 @@
                 // Pull to refresh
                 initPullToRefresh(page);
             }
+        },
+        onPageAfterAnimation: function (app, page) {
+            if (page.name === 'index') {
+
+            }
         }
     });
 
@@ -409,6 +414,17 @@
         });
     };
 
+    // НАСТРОЙКИ
+
+    app.onPageInit('settings', function (page) {
+        $$('.button-clear-cache').on('click', function (e) {
+            app.confirm('Вы уверены?', 'Настройки', function () {
+                localStorage.clear();
+                window.location.reload();
+            });
+        });
+    });
+
     // АВТОРИЗАЦИЯ 
 
     // Диалог авторизации
@@ -462,7 +478,7 @@
                 } else {
                     displayAuthError('Ошибка авторизации!');
                     // Удалить индикатор
-                    //preloader.remove();
+                    preloader.remove();
                     // Разблокировать ввод
                     loginScreen.find('input[name="iin"]').removeAttr('disabled');
                 }
