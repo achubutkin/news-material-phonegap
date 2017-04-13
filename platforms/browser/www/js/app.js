@@ -225,9 +225,6 @@
         // Первый элемент отдельно
         if (append === false /* если это не добавление при Infinite Scroll */) {
             var firstItem = items[0];
-            var introtext = $$(firstItem.introtext);
-            // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
-            introtext.children('img').remove();
 
             firstItemHTML +=
             '<a href="item.html?itemId=' + firstItem.id + '&categoryId=' + firstItem.catid + '" class="link">' +
@@ -236,7 +233,7 @@
             '       <div class="card-header"><h3>' + firstItem.title + '</h3></div>' +
             '       <div class="card-content">' +
             '           <div class="card-content-inner">' +
-            '               <p>' + introtext.text() + '</p>' +
+            '               <p>' + firstItem.introtext + '</p>' +
             '               <p class="color-gray">Опубликовано ' + moment(firstItem.modified).format('LL') + '</p>' +
             '           </div>' +
             '       </div>' +
@@ -245,10 +242,6 @@
         }
 
         for (var i = 1; i < items.length; i++) {
-
-            var introtext = $$(items[i].introtext);
-            // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
-            introtext.children('img').remove();
 
             itemsHTML +=
         '<div class="row">' +
@@ -308,10 +301,6 @@
         var itemsHTML = '';
         for (var i = 0; i < items.length; i++) {
 
-            var introtext = $$(items[i].introtext);
-            // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
-            introtext.children('img').remove();
-
             itemsHTML +=
         '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link no-ripple">' +
         '   <div class="card">' +
@@ -319,7 +308,7 @@
         '       <div class="card-header"><h2>' + items[i].title + '</h2></div>' +
         '       <div class="card-content">' +
         '           <div class="card-content-inner">' +
-        '               <p>' + introtext.text() + '</p>' +
+        '               <p>' + items[i].introtext + '</p>' +
         '               <p class="color-gray">Опубликовано ' + moment(items[i].modified).format('LL') + '</p>' +
         '           </div>' +
         '       </div>' +
