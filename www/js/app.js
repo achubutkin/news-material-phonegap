@@ -418,7 +418,7 @@
     var authInProgress = false,
         preloader = $$('' +
         '<div class="login-screen-preloader">' +
-        '    <div class="preloader white"></div>' +
+        '    <div class="preloader white"><span class="preloader-inner"><span class="preloader-inner-gap"></span><span class="preloader-inner-left"><span class="preloader-inner-half-circle"></span></span><span class="preloader-inner-right"><span class="preloader-inner-half-circle"></span></span></span></div>' +
         '</div>');
 
     // Кнопка авторизации

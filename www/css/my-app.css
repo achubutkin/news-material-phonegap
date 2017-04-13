@@ -204,7 +204,7 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     text-align: center;
 }
 
-.login-screen-preloader .preloader {
+.login-screen-preloader .preloader-inner .preloader-inner-half-circle {
     border-color: #ffffff;
 }
 
