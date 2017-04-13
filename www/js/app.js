@@ -144,24 +144,26 @@
         });
     }
 
+    // Флаг загрузки
+    var loadingTopItems = false;
+
     // Список последних статей с Infinite Scroll
     function initInfiniteScroll(page) {
-        // Флаг загрузки
-        var loading = false;
+
         // Последний элемент
         var lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length;
 
         // Attach 'infinite' event handler
         $$('.infinite-scroll').on('infinite', function () {
             // Возврат, если загрузка в процессе
-            if (loading) return;
+            if (loadingTopItems) return;
             // Установить флаг загрузки
-            loading = true;
-            // Задержка 2 сек
+            loadingTopItems = true;
+            // Задержка 1 сек
             setTimeout(function () {
                 // Запрос данных
                 intraapi.loadTopArticles(lastLoadedIndex, function (data) {
-                    loading = false;
+                    loadingTopItems = false;
                     // Результат  
                     var items = JSON.parse(data)['#value'];
                     if (items.length === 0) {
@@ -180,7 +182,7 @@
             function (xhr) {
 
             });
-            }, 2000);
+            }, 1000);
         });
     };
 
@@ -412,7 +414,7 @@
             function (xhr) {
 
             });
-            }, 1);
+            }, 1000);
         });
     };
 
