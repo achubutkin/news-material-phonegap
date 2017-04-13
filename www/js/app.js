@@ -226,15 +226,13 @@
         if (append === false /* если это не добавление при Infinite Scroll */) {
             var firstItem = items[0];
             var introtext = $$(firstItem.introtext);
-            // Сохранить первую картинку из описания (если есть)
-            var firstImg = introtext.children('img').length > 0 ? introtext.children('img')[0] : undefined;
             // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
             introtext.children('img').remove();
 
             firstItemHTML +=
             '<a href="item.html?itemId=' + firstItem.id + '&categoryId=' + firstItem.catid + '" class="link">' +
             '   <div class="card">' +
-            '       <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+            '       <div data-background="' + intraapi.url + resPath + firstItem.src + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
             '       <div class="card-header"><h3>' + firstItem.title + '</h3></div>' +
             '       <div class="card-content">' +
             '           <div class="card-content-inner">' +
@@ -249,8 +247,6 @@
         for (var i = 1; i < items.length; i++) {
 
             var introtext = $$(items[i].introtext);
-            // Сохранить первую картинку из описания (если есть)
-            var firstImg = introtext.children('img').length > 0 ? introtext.children('img')[0] : undefined;
             // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
             introtext.children('img').remove();
 
@@ -259,7 +255,7 @@
         '   <div class="col-100">' +
         '       <a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link">' +
         '           <div class="card">' +
-        '               <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
+        '               <div data-background="' + intraapi.url + resPath + items[i].src + '" class="lazy lazy-fadeIn card-header-pic"></div>' +
         '               <div class="card-header"><h4>' + items[i].title + '</h4></div>' +
         '               <div class="card-content">' +
         '                   <div class="card-content-inner">' +
@@ -276,8 +272,6 @@
         if (append === false) $$(page.container).find('.first-item').html(firstItemHTML);
         // Показать список 
         append && append === true ? $$(page.container).find('.last-items').append(itemsHTML) : $$(page.container).find('.last-items').html(itemsHTML);
-        // Скорректировать пути картинок
-        fixImagesPaths(page.container);
         // Показать картинки (lazy load)
         app.initImagesLazyLoad(page.container);
     }
@@ -315,15 +309,13 @@
         for (var i = 0; i < items.length; i++) {
 
             var introtext = $$(items[i].introtext);
-            // Сохранить первую картинку из описания (если есть)
-            var firstImg = introtext.children('img').length > 0 ? introtext.children('img')[0] : undefined;
             // Удалить все картинки из описания (перенести на сервер (!), клиент получает данные без доп. обработки)
             introtext.children('img').remove();
 
             itemsHTML +=
         '<a href="item.html?itemId=' + items[i].id + '&categoryId=' + items[i].catid + '" class="link no-ripple">' +
         '   <div class="card">' +
-        '       <div data-background="' + (firstImg === undefined ? '' : $$(firstImg).attr('src')) + '" valign="bottom" class="lazy lazy-fadein card-header-pic"></div>' +
+        '       <div data-background="' + intraapi.url + resPath + items[i].src + '" valign="bottom" class="lazy lazy-fadein card-header-pic"></div>' +
         '       <div class="card-header"><h2>' + items[i].title + '</h2></div>' +
         '       <div class="card-content">' +
         '           <div class="card-content-inner">' +
@@ -337,8 +329,6 @@
 
         // Показать список 
         append && append === true ? $$(page.container).find('.items').append(itemsHTML) : $$(page.container).find('.items').html(itemsHTML);
-        // Скорректировать пути картинок
-        fixImagesPaths(page.container);
         // Показать картинки (lazy load)
         app.initImagesLazyLoad(page.container);
     }
