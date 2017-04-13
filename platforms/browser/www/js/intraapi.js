@@ -1,14 +1,15 @@
 (function (Framework7, $$) {
     'use strict';
 
-    var url = 'https://web.applecity.kz:3381/databus_intra/hs/api/',    // адрес API
-        rcount = 2,                                                     // кол-во попыток загрузки данных
+    var url = 'https://web.applecity.kz:3381/',     // адрес сервера
+        apiPath = 'mobileintra/hs/api/',            // адрес API
+        rcount = 2,                                 // кол-во попыток загрузки данных
         req, reqPOST, intraapi;
 
     req = function (path, success, error, retry) {
         if (retry === undefined) retry = rcount;
         return $$.ajax({
-            url: url + path + '?sign=' + localStorage.getItem('sign'), /* подписать запрос */
+            url: url + apiPath + path + '?sign=' + localStorage.getItem('sign'), /* подписать запрос */
             success: success,
             error: function (xhr) {
                 if (retry > 0 && !(xhr.status === 403 && xhr.statusText === 'Forbidden')) {
@@ -23,7 +24,7 @@
     reqPOST = function (path, data, success, error, retry) {
         if (retry === undefined) retry = rcount;
         return $$.ajax({
-            url: url + path,
+            url: url + apiPath + path,
             method: 'POST',
             data: data,
             success: success,

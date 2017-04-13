@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
 <widget id="com.phonegap.intra" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Phonegap News [material]</name>
+    <name>ACD News</name>
     <description>
-        A basic template for PhoneGap.
+        ACD News
     </description>
     <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+        ACD Team
     </author>
     <content src="index.html" />
     <access origin="*" />
@@ -24,29 +24,54 @@
         <allow-intent href="itms-apps:*" />
         <preference name="BackupWebStorage" value="none" />
     </platform>
+
     <preference name="DisallowOverscroll" value="true" />
+
+    <!-- http://stackoverflow.com/questions/25385308/phonegap-build-not-showing-splashscreen -->
     <preference name="ShowSplashScreenSpinner" value="false" />
+    
+    <!-- http://pointdeveloper.com/how-to-add-splash-screen-to-phonegap-apps-phonegap-build/ -->
+    <!-- http://stackoverflow.com/questions/25385308/phonegap-build-not-showing-splashscreen -->
+    <!--
     <preference name="orientation" value="portrait" />
+    -->
     <preference name="SplashScreen" value="splash" />
+
+    <!-- http://phonegap.appiq.software/ -->
     <splash platform="android" qualifier="port-ldpi" src="res/screen/android/screen-hdpi-portrait.png" />
     <splash platform="android" qualifier="port-mdpi" src="res/screen/android/screen-hdpi-portrait.png" />
     <splash platform="android" qualifier="port-hdpi" src="res/screen/android/screen-hdpi-portrait.png" />
     <splash platform="android" qualifier="port-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
     <splash platform="android" qualifier="port-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash platform="android" qualifier="port-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
+
     <splash platform="android" qualifier="land-ldpi" src="res/screen/android/screen-hdpi-landscape.png" />
     <splash platform="android" qualifier="land-mdpi" src="res/screen/android/screen-hdpi-landscape.png" />
     <splash platform="android" qualifier="land-hdpi" src="res/screen/android/screen-hdpi-landscape.png" />
     <splash platform="android" qualifier="land-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
     <splash platform="android" qualifier="land-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
+
+    <splash height="1136" platform="ios" src="www/res/screen/ios/screen-iphone-568h-2x.png" width="640" />
+    <splash height="1334" platform="ios" src="www/res/screen/ios/screen-iphone-portrait-667h.png" width="750" />
+    <splash height="2208" platform="ios" src="www/res/screen/ios/screen-iphone-landscape-736h.png" width="1242" />
+    <splash height="1242" platform="ios" src="www/res/screen/ios/screen-iphone-landscape-736h.png" width="2208" />
+    <splash height="1536" platform="ios" src="www/res/screen/ios/screen-ipad-landscape-2x.png" width="2048" />
+    <splash height="768" platform="ios" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
+    <splash height="2048" platform="ios" src="www/res/screen/ios/screen-ipad-portrait-2x.png" width="1536" />
+    <splash height="1024" platform="ios" src="www/res/screen/ios/screen-ipad-portrait-2x.png" width="768" />
+    <splash height="960" platform="ios" src="www/res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
+    <splash height="480" platform="ios" src="www/res/screen/ios/screen-iphone-portrait.png" width="320" />
+
     <plugin name="cordova-plugin-splashscreen" spec="~4.0.2" />
     <plugin name="cordova-plugin-whitelist" spec="~1.2.0" />
     <plugin name="cordova-plugin-console" spec="~1.0.1" />
     <plugin name="cordova-plugin-statusbar" spec="~1.0.1" />
     <plugin name="cordova-plugin-network-information" spec="~1.3.2" />
+
     <preference name="StatusBarOverlaysWebView" value="true" />
     <preference name="StatusBarBackgroundColor" value="#00624e" />
+    
     <platform name="android">
         <icon density="ldpi" src="res/icon/android/drawable-ldpi-icon.png" />
         <icon density="mdpi" src="res/icon/android/drawable-mdpi-icon.png" />
@@ -54,12 +79,12 @@
         <icon density="xhdpi" src="res/icon/android/drawable-xhdpi-icon.png" />
         <icon density="xxhdpi" src="res/icon/android/drawable-xxhdpi-icon.png" />
         <icon density="xxxhdpi" src="res/icon/android/drawable-xxxhdpi-icon.png" />
-        <splash density="port-ldpi" platform="android" src="res/screen/android/drawable-port-ldpi-screen.png" />
-        <splash density="port-mdpi" platform="android" src="res/screen/android/drawable-port-mdpi-screen.png" />
-        <splash density="port-hdpi" platform="android" src="res/screen/android/drawable-port-hdpi-screen.png" />
-        <splash density="port-xhdpi" platform="android" src="res/screen/android/drawable-port-xhdpi-screen.png" />
-        <splash density="port-xxhdpi" platform="android" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
-        <splash density="port-xxxhdpi" platform="android" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
+        <splash platform="android" density="port-ldpi" src="res/screen/android/drawable-port-ldpi-screen.png" />
+        <splash platform="android" density="port-mdpi" src="res/screen/android/drawable-port-mdpi-screen.png" />
+        <splash platform="android" density="port-hdpi" src="res/screen/android/drawable-port-hdpi-screen.png" />
+        <splash platform="android" density="port-xhdpi" src="res/screen/android/drawable-port-xhdpi-screen.png" />
+        <splash platform="android" density="port-xxhdpi" src="res/screen/android/drawable-port-xxhdpi-screen.png" />
+        <splash platform="android" density="port-xxxhdpi" src="res/screen/android/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
         <icon height="57" platform="ios" src="www/res/icon/ios/icon.png" width="57" />
@@ -78,16 +103,16 @@
         <icon height="29" platform="ios" src="www/res/icon/ios/icon-small.png" width="29" />
         <icon height="58" platform="ios" src="www/res/icon/ios/icon-small@2x.png" width="58" />
         <icon height="87" platform="ios" src="www/res/icon/ios/icon-small@3x.png" width="87" />
-        <splash height="1136" platform="ios" src="www/res/screen/ios/Default-568h@2x~iphone.png" width="640" />
-        <splash height="1334" platform="ios" src="www/res/screen/ios/Default-667h.png" width="750" />
-        <splash height="2208" platform="ios" src="www/res/screen/ios/Default-736h.png" width="1242" />
-        <splash height="1242" platform="ios" src="www/res/screen/ios/Default-Landscape-736h.png" width="2208" />
-        <splash height="1536" platform="ios" src="www/res/screen/ios/Default-Landscape@2x~ipad.png" width="2048" />
-        <splash height="768" platform="ios" src="www/res/screen/ios/Default-Landscape~ipad.png" width="1024" />
-        <splash height="2048" platform="ios" src="www/res/screen/ios/Default-Portrait@2x~ipad.png" width="1536" />
-        <splash height="1024" platform="ios" src="www/res/screen/ios/Default-Portrait~ipad.png" width="768" />
-        <splash height="960" platform="ios" src="www/res/screen/ios/Default@2x~iphone.png" width="640" />
-        <splash height="480" platform="ios" src="www/res/screen/ios/Default~iphone.png" width="320" />
+        <splash height="1136" platform="ios" src="www/res/screen/ios/screen-iphone-568h-2x.png" width="640" />
+        <splash height="1334" platform="ios" src="www/res/screen/ios/screen-iphone-portrait-667h.png" width="750" />
+        <splash height="2208" platform="ios" src="www/res/screen/ios/screen-iphone-landscape-736h.png" width="1242" />
+        <splash height="1242" platform="ios" src="www/res/screen/ios/screen-iphone-landscape-736h.png" width="2208" />
+        <splash height="1536" platform="ios" src="www/res/screen/ios/screen-ipad-landscape-2x.png" width="2048" />
+        <splash height="768" platform="ios" src="www/res/screen/ios/screen-ipad-landscape.png" width="1024" />
+        <splash height="2048" platform="ios" src="www/res/screen/ios/screen-ipad-portrait-2x.png" width="1536" />
+        <splash height="1024" platform="ios" src="www/res/screen/ios/screen-ipad-portrait-2x.png" width="768" />
+        <splash height="960" platform="ios" src="www/res/screen/ios/screen-iphone-portrait-2x.png" width="640" />
+        <splash height="480" platform="ios" src="www/res/screen/ios/screen-iphone-portrait.png" width="320" />
     </platform>
     <platform name="wp8">
         <icon height="99" platform="wp8" src="www/res/icon/wp8/ApplicationIcon.png" width="99" />
@@ -111,7 +136,9 @@
         <icon height="360" platform="windows" src="www/res/icon/windows/Wide310x150Logo.scale-240.png" width="744" />
         <splash height="1920" platform="windows" src="www/res/screen/windows/SplashScreenPhone.scale-240.png" width="1152" />
     </platform>
-    <plugin name="phonegap-plugin-push" spec="~1.10.1">
-        <variable name="SENDER_ID" value="85075801930" />
-    </plugin>
+
+    <feature name="StatusBar">
+        <param name="ios-package" value="CDVStatusBar" onload="true" />
+    </feature>
+
 </widget>

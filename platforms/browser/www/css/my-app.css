@@ -203,3 +203,20 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
 .login-screen-preloader .preloader {
     border-color: #ffffff;
 }
+
+.content-block {
+    color: #333;
+}
+
+.content-block img {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.first-item .card-header-pic {
+    height: 70vw;
+}
+
+.layout-dark .categories .content-block-title {
+    color: #aaa;
+}
