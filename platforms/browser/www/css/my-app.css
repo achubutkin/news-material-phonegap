@@ -181,7 +181,7 @@ body.with-panel-left-cover .panel, body.with-panel-right-cover .panel {
     color: rgba(255,255,255,1); 
 }
 
-.login-screen-content .list-block input[type=date], .login-screen-content .list-block input[type=text] {
+.login-screen-content .list-block input[type=date], .login-screen-content .list-block input[type=text], .login-screen-content .list-block input[type=number] {
     color: rgba(255,255,255, .65); 
 }
 
