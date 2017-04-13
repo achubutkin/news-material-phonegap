@@ -28,7 +28,7 @@
         // Enable dynamic Navbar
         dynamicNavbar: true,
         // Enable Dom Cache so we can use all inline pages
-        domCache: false
+        domCache: true
     });
 
     // КАТЕГОРИИ 
