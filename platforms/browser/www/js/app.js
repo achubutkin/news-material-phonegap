@@ -10,15 +10,20 @@
 
     // Инициализация приложения
     app = new Framework7({
-        animateNavBackIcon: false,
+        animateNavBackIcon: true,
         material: true,
-        materialRipple: true,
+        materialRipple: false,
         onPageInit: function (app, page) {
             if (page.name === 'index') {
                 // Список последних элементов
                 getLastItems(page, true);
                 // Pull to refresh
                 initPullToRefresh(page);
+            }
+        },
+        onPageAfterAnimation: function (app, page) {
+            if (page.name === 'index') {
+
             }
         }
     });
@@ -28,7 +33,7 @@
         // Enable dynamic Navbar
         dynamicNavbar: true,
         // Enable Dom Cache so we can use all inline pages
-        domCache: false
+        domCache: true
     });
 
     // КАТЕГОРИИ 
@@ -57,8 +62,6 @@
         if (category) {
             // Список элементов категории
             getItems(category, page);
-            // Infinite Scroll
-            initCategoryInfiniteScroll(page);
         }
     });
 
@@ -141,24 +144,26 @@
         });
     }
 
+    // Флаг загрузки
+    var loadingTopItems = false;
+
     // Список последних статей с Infinite Scroll
     function initInfiniteScroll(page) {
-        // Флаг загрузки
-        var loading = false;
+
         // Последний элемент
-        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length + 1;
+        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .last-items a').length;
 
         // Attach 'infinite' event handler
         $$('.infinite-scroll').on('infinite', function () {
             // Возврат, если загрузка в процессе
-            if (loading) return;
+            if (loadingTopItems) return;
             // Установить флаг загрузки
-            loading = true;
-            // Задержка 2 сек
+            loadingTopItems = true;
+            // Задержка 1 сек
             setTimeout(function () {
                 // Запрос данных
                 intraapi.loadTopArticles(lastLoadedIndex, function (data) {
-                    loading = false;
+                    loadingTopItems = false;
                     // Результат  
                     var items = JSON.parse(data)['#value'];
                     if (items.length === 0) {
@@ -177,7 +182,7 @@
             function (xhr) {
 
             });
-            }, 2000);
+            }, 1000);
         });
     };
 
@@ -195,15 +200,13 @@
     function getLastItems(page /* для корректного swipeBack */, refresh) {
         var items = refresh ? [] : JSON.parse(localStorage.getItem('lastitems')) || [];
         if (items.length === 0) {
-            intraapi.loadTopArticles(1, function (data) {
+            intraapi.loadTopArticles(0, function (data) {
                 // Результат  
                 items = JSON.parse(data)['#value'];
                 // Обновить кэш
                 localStorage.setItem('lastitems', JSON.stringify(items));
                 // Показать последние статьи
                 renderLastItems(items, page);
-                // Infinite Scroll
-                initInfiniteScroll(page);
             },
         function (xhr) {
             if (xhr.status === 403) {
@@ -267,6 +270,8 @@
         append && append === true ? $$(page.container).find('.last-items').append(itemsHTML) : $$(page.container).find('.last-items').html(itemsHTML);
         // Показать картинки (lazy load)
         app.initImagesLazyLoad(page.container);
+        // Infinite Scroll
+        initInfiniteScroll(page);
     }
 
     function getItems(category, page /* для корректного swipeBack */, refresh) {
@@ -290,7 +295,7 @@
         }
 
         if (items.length === 0) {
-            // Удалить индикатор 
+            // Удалить индикатор
             setTimeout(function () {
                 $$(page.container).find('.preloader-layer').remove();
             }, 1000);
@@ -320,6 +325,8 @@
         append && append === true ? $$(page.container).find('.items').append(itemsHTML) : $$(page.container).find('.items').html(itemsHTML);
         // Показать картинки (lazy load)
         app.initImagesLazyLoad(page.container);
+        // Infinite Scroll
+        initCategoryInfiniteScroll(page);
     }
 
     function getItem(itemId, page) {
@@ -368,21 +375,23 @@
         app.initImagesLazyLoad(page.container);
     }
 
+    // Флаг загрузки
+    var loading = false;
+
     // Список статей по категории с Infinite Scroll
     function initCategoryInfiniteScroll(page) {
         var categoryId = page.query.categoryId,
         category = findCategory(categoryId);
-        // Флаг загрузки
-        var loading = false;
+
         // Последний элемент
-        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .items a').length + 1;
+        var lastLoadedIndex = $$(page.container).find('.infinite-scroll .items a').length;
         // Attach 'infinite' event handler
         $$('.infinite-scroll').on('infinite', function () {
             // Возврат, если загрузка в процессе
             if (loading) return;
             // Установить флаг загрузки
             loading = true;
-            // Задержка 2 сек
+            // Задержка 1 сек
             setTimeout(function () {
                 // Запрос данных
                 intraapi.loadArticles(category.id, lastLoadedIndex, function (data) {
@@ -405,9 +414,20 @@
             function (xhr) {
 
             });
-            }, 2000);
+            }, 1000);
         });
     };
+
+    // НАСТРОЙКИ
+
+    app.onPageInit('settings', function (page) {
+        $$('.button-clear-cache').on('click', function (e) {
+            app.confirm('Вы уверены?', 'Настройки', function () {
+                localStorage.clear();
+                window.location.reload();
+            });
+        });
+    });
 
     // АВТОРИЗАЦИЯ 
 
@@ -541,5 +561,10 @@
 
     // Export app to global
     window.app = app;
+
+    // Прокрутка вверх, при нажатии на строку статуса (cordova-plugin-statusbar) 
+    window.addEventListener('statusTap', function() {
+        document.body.scrollTop = 0;
+    });
 
 } (Framework7, Dom7, moment, intraapi));
